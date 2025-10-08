@@ -117,7 +117,7 @@
                     <h5>Contact Info</h5>
                     <p>📍 123 Main Street, Dhaka</p>
                     <p>📞 +880 1234 567 890</p>
-                    <p>📧 info@mysite.com</p>
+                    <p>📧 edora@learningplatform.com</p>
                 </div>
 
                 <!-- Social Links -->
