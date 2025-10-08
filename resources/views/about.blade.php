@@ -11,15 +11,21 @@
                 <img src="https://via.placeholder.com/550x350" class="img-fluid rounded shadow-sm" alt="About">
             </div>
             <div class="col-md-6">
-                <h3 class="fw-semibold mb-3">Who We Are</h3>
-                <p class="text-muted">
-                    We are an online learning platform dedicated to providing high-quality courses that help students and professionals upskill and grow in their careers.
-                </p>
-                <h3 class="fw-semibold mt-4 mb-3">Our Mission</h3>
-                <p class="text-muted">
-                    To make quality education accessible and affordable to everyone, empowering learners to achieve their goals and unlock new opportunities.
-                </p>
-            </div>
+    <h3 class="fw-semibold mb-3">Who We Are</h3>
+    <p class="text-muted">
+        We are an online learning platform dedicated to providing high-quality courses that help students and professionals upskill and grow in their careers.
+    </p>
+    <h3 class="fw-semibold mt-4 mb-3">Our Mission</h3>
+    <p class="text-muted">
+        To make quality education accessible and affordable to everyone, empowering learners to achieve their goals and unlock new opportunities.
+    </p>
+    <h3 class="fw-semibold mt-4 mb-3">Contact Us</h3>
+    <p class="text-muted">
+        <strong>Address:</strong> 123 Main Street, Dhaka-1000<br>
+        <strong>Email:</strong> edora@learningplatform.com<br>
+        <strong>Phone:</strong> +1 (555) 123-4567
+    </p>
+</div>
         </div>
     </div>
 </section>
