@@ -10,6 +10,9 @@ use App\Http\Controllers\CheckoutController as checkout;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 
+use App\Http\Controllers\CourseController;
+
+
 Route::get('/', function () {
     return view('home');
 });
@@ -29,3 +32,5 @@ Route::post('/register', [RegisterController::class, 'register']);
 
 // Logout
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+
+Route::get('/courses', [CourseController::class, 'index'])->name('courses.index');
