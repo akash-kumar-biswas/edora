@@ -70,17 +70,52 @@
                     <li class="nav-item"><a class="nav-link" href="{{ url('/about') }}">About</a></li>
                 </ul>
 
-                <!-- ✅ Search, Cart, Auth -->
+                <!-- ✅ Search Bar -->
                 <form class="d-flex me-3 search-bar" role="search">
                     <input class="form-control" type="search" placeholder="Search..." aria-label="Search">
                 </form>
 
-                <a href="{{ url('/cart') }}" class="btn btn-outline-light me-2">🛒 Cart</a>
-                <a href="{{ url('/login') }}" class="btn btn-outline-light me-2">Sign In</a>
-                <a href="{{ url('/register') }}" class="btn btn-warning text-dark">Sign Up</a>
+                <!-- ✅ Conditional Auth Buttons -->
+                @auth
+                    <div class="dropdown me-2">
+                        <button class="btn btn-outline-light dropdown-toggle" type="button" id="userMenu" data-bs-toggle="dropdown" aria-expanded="false">
+                            👤 {{ Auth::user()->name }}
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenu">
+                            <li><a class="dropdown-item" href="{{ url('/dashboard') }}">Dashboard</a></li>
+                            <li>
+                                <form action="{{ route('logout') }}" method="POST" class="m-0">
+                                    @csrf
+                                    <button type="submit" class="dropdown-item text-danger">Logout</button>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
+                @else
+                    <a href="{{ route('login') }}" class="btn btn-outline-light me-2">Sign In</a>
+                    <a href="{{ route('register') }}" class="btn btn-warning text-dark">Sign Up</a>
+                @endauth
+
+                <a href="{{ url('/cart') }}" class="btn btn-outline-light ms-2">🛒 Cart</a>
             </div>
         </div>
     </nav>
+
+    <!-- ✅ Flash Messages -->
+    <div class="container mt-3">
+        @if (session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+        @if (session('error'))
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                {{ session('error') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+    </div>
 
     <!-- ✅ Page Content -->
     <main>
