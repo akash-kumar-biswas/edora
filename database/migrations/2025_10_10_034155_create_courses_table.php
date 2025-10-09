@@ -17,20 +17,14 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->unsignedBigInteger('instructor_id')->index()->nullable();
             $table->enum('type', ['free', 'paid'])->default('paid');
+            $table->integer('duration')->nullable()->comment('duration in hours');;
             $table->decimal('price', 10, 2)->default(0.00);
-            $table->decimal('old_price', 10, 2)->nullable();
-            $table->timestamp('start_from')->nullable();
-            $table->integer('duration')->nullable()->comment('duration in hours');
-            $table->integer('lesson_count')->nullable();
-            $table->text('prerequisites')->nullable();
             $table->enum('difficulty', ['beginner', 'intermediate', 'advanced'])->nullable();
             $table->string('image')->nullable();
-            $table->string('thumbnail_image')->nullable();
-            $table->string('thumbnail_video')->nullable();
             $table->integer('status')->default(0)->comment('0 pending, 1 inactive, 2 active');
             $table->timestamps();
             // Foreign key constraints
-            // $table->foreign('instructor_id')->references('id')->on('instructors')->onDelete('cascade');
+            $table->foreign('instructor_id')->references('id')->on('instructors')->onDelete('cascade');
 
         });
     }

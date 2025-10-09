@@ -8,11 +8,11 @@ use App\Models\Course;
 class CourseController extends Controller
 {
     /**
-     * Display a simple list of all active courses.
+     * Display a list of all active courses (Blade view or API).
      */
     public function index(Request $request)
     {
-        $query = Course::query()->where('status', 2); // only active courses
+        $query = Course::with('instructor')->where('status', 2); // only active courses
 
         // ✅ Apply filters if provided
         if ($request->filled('difficulty')) {
@@ -40,6 +40,58 @@ class CourseController extends Controller
 
         $courses = $query->latest()->get();
 
+        // Return JSON if request expects API response
+        if ($request->wantsJson()) {
+            return response()->json($courses);
+        }
+
+        // Otherwise return Blade view
         return view('courses', compact('courses'));
+    }
+
+    /**
+     * Show a single course.
+     */
+    public function show(Request $request, $id)
+    {
+        $course = Course::with('instructor')->findOrFail($id);
+
+        if ($request->wantsJson()) {
+            return response()->json($course);
+        }
+
+        return view('course-details', compact('course'));
+    }
+
+    /**
+     * Optional: Store a new course (API only)
+     */
+    public function store(Request $request)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'instructor_id' => 'nullable|exists:instructors,id',
+            'type' => 'required|in:free,paid',
+            'price' => 'required|numeric|min:0',
+            'difficulty' => 'nullable|in:beginner,intermediate,advanced',
+            'duration' => 'nullable|integer|min:0',
+            'status' => 'required|in:0,1,2',
+        ]);
+
+        $course = Course::create($request->all());
+
+        return response()->json($course, 201);
+    }
+
+    /**
+     * Optional: Delete a course (soft delete) (API only)
+     */
+    public function destroy($id)
+    {
+        $course = Course::findOrFail($id);
+        $course->delete();
+
+        return response()->json(['message' => 'Course deleted successfully']);
     }
 }

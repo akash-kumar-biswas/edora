@@ -14,24 +14,20 @@ class Course extends Model
         'description',
         'instructor_id',
         'type',
-        'price',
-        'old_price',
-        'start_from',
         'duration',
-        'lesson_count',
-        'prerequisites',
+        'price',
         'difficulty',
         'image',
-        'thumbnail_image',
-        'thumbnail_video',
         'status',
     ];
 
-    /**
-     * Example relationship (optional if you have instructors table)
-     */
     public function instructor()
     {
-        // return $this->belongsTo(Instructor::class);
+        return $this->belongsTo(Instructor::class);
+    }
+
+    public function students()
+    {
+        return $this->belongsToMany(Student::class, 'enrollments');
     }
 }

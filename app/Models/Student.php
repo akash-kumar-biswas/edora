@@ -5,27 +5,30 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable
+class Student extends Authenticatable
 {
     use HasFactory;
 
     protected $fillable = [
         'name',
         'email',
-        'password',
-        'role_id',
+        'date_of_birth',
+        'gender',
         'image',
-        'full_access',
+        'bio',
+        'profession',
+        'nationality',
+        'address',
+        'city',
+        'state',
+        'postcode',
+        'country',
         'status',
+        'password',
     ];
 
     protected $hidden = [
         'password',
         'remember_token',
     ];
-
-    public function role()
-    {
-        return $this->belongsTo(Role::class);
-    }
 }
