@@ -14,7 +14,7 @@ class InstructorSeeder extends Seeder
             'name' => 'Default Instructor',
             'email' => 'instructor@example.com',
             'password' => bcrypt('instructor123'),
-            'status' => 1,
+            'status' => rand(0, 1),
         ]);
 
         // Generate 10 random instructors

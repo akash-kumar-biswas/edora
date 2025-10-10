@@ -17,34 +17,6 @@ Route::get('/about', function () {
 });
 
 
-// Show registration form
-Route::get('/register', [AdminRegisterController::class, 'showRegistrationForm'])->name('register');
-
-// Handle registration form submission
-Route::post('/register', [AdminRegisterController::class, 'register'])->name('register.store');
-
-// Login form
-Route::get('/login', [AdminLoginController::class, 'showLoginForm'])->name('login');
-
-// Handle login
-Route::post('/login', [AdminLoginController::class, 'login'])->name('login.submit');
-
-// Logout
-Route::post('/logout', [AdminLoginController::class, 'logout'])->name('logout');
-
-// Show login form
-// Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
-// // Handle login
-// Route::post('/login', [LoginController::class, 'login']);
-
-// // Show registration form
-// Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
-// // Handle registration
-// Route::post('/register', [RegisterController::class, 'register']);
-
-// // Logout
-// Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
-
 // Courses
 Route::get('/courses', [CourseController::class, 'index'])->name('courses.index');
 
@@ -90,6 +62,8 @@ Route::middleware('auth')->group(function () {
 
 use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\InstructorController;
+
 
 // Admin Login Routes
 Route::get('/admin/login', [AdminAuthController::class, 'showLoginForm'])->name('admin.login');
@@ -98,9 +72,14 @@ Route::get('/admin/logout', [AdminAuthController::class, 'logout'])->name('admin
 
 // Admin Pages (no middleware, manual session check)
 Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
-Route::get('/admin/instructors', [AdminController::class, 'instructors'])->name('admin.instructors');
+// Route::get('/admin/instructors', [AdminController::class, 'instructors'])->name('admin.instructors');
 Route::get('/admin/students', [AdminController::class, 'students'])->name('admin.students');
 Route::get('/admin/courses', [AdminController::class, 'courses'])->name('admin.courses');
 Route::get('/admin/enrollments', [AdminController::class, 'enrollments'])->name('admin.enrollments');
+
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::resource('instructors', InstructorController::class);
+    
+});
 
 // ----------------------------------------------------------------------------------

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Instructor;
 use App\Models\Student;
 use App\Models\Course;
+use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
@@ -31,10 +32,28 @@ class AdminController extends Controller
         ]);
     }
 
-    public function instructors()
+    public function instructors(Request $request)
     {
         $this->checkSession();
-        return view('admin.instructors', ['admin_name' => session('admin_name')]);
+
+        // Get sorting parameters
+        $sort_by = $request->get('sort_by', 'id');
+        $sort_order = $request->get('sort_order', 'asc');
+
+        // Validate column to avoid injection
+        $allowed = ['id', 'name', 'email', 'status', 'created_at'];
+        if (!in_array($sort_by, $allowed)) {
+            $sort_by = 'id';
+        }
+
+        $instructors = Instructor::orderBy($sort_by, $sort_order)->get();
+
+        return view('admin.instructors', [
+            'admin_name' => session('admin_name'),
+            'instructors' => $instructors,
+            'sort_by' => $sort_by,
+            'sort_order' => $sort_order
+        ]);
     }
 
     public function students()
