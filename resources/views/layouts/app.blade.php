@@ -85,7 +85,7 @@
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenu">
                             <li><a class="dropdown-item" href="{{ url('/dashboard') }}">Dashboard</a></li>
                             <li>
-                                <form action="{{ route('logout') }}" method="POST" class="m-0">
+                                <form action="{{ route('student.logout') }}" method="POST" class="m-0">
                                     @csrf
                                     <button type="submit" class="dropdown-item text-danger">Logout</button>
                                 </form>
@@ -93,8 +93,8 @@
                         </ul>
                     </div>
                 @else
-                    <a href="{{ route('login') }}" class="btn btn-outline-light me-2">Sign In</a>
-                    <a href="{{ route('register') }}" class="btn btn-warning text-dark">Sign Up</a>
+                    <a href="{{ route('student.login') }}" class="btn btn-outline-light me-2">Sign In</a>
+                    <a href="{{ route('student.register') }}" class="btn btn-warning text-dark">Sign Up</a>
                 @endauth
 
                 <a href="{{ url('/cart') }}" class="btn btn-outline-light ms-2">🛒 Cart</a>

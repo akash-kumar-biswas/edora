@@ -1,31 +1,26 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\Student;
 
 use App\Http\Controllers\Controller;
 use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Auth;   
+use Illuminate\Support\Facades\Auth;
 
-class StudentRegisterController extends Controller
+class RegisterController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('guest:student');
-    }
-
     public function showRegistrationForm()
     {
-        return view('auth.student-register'); // create this Blade
+        return view('student.register'); // your blade
     }
 
     public function register(Request $request)
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:students',
-            'password' => 'required|confirmed|min:8',
+            'email' => 'required|email|unique:students,email',
+            'password' => 'required|string|min:6|confirmed',
         ]);
 
         $student = Student::create([
@@ -36,6 +31,6 @@ class StudentRegisterController extends Controller
 
         Auth::guard('student')->login($student);
 
-        return redirect('/student/dashboard')->with('success', 'Account created successfully!');
+        return redirect()->route('student.dashboard');
     }
 }
