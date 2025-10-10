@@ -2,25 +2,25 @@
 
 namespace Database\Factories;
 
-use App\Models\User;
+use App\Models\Instructor;
 use App\Models\Role;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 
-class UserFactory extends Factory
+class InstructorFactory extends Factory
 {
-    protected $model = User::class;
+    protected $model = Instructor::class;
 
     public function definition(): array
     {
         return [
             'name' => $this->faker->name(),
             'email' => $this->faker->unique()->safeEmail(),
-            'role_id' => Role::inRandomOrder()->first()?->id ?? 1,
-            'password' => Hash::make('password123'),
+            'role_id' => Role::where('name', 'Instructor')->first()->id ?? 2, // default role_id = 2 if not exists
+            'bio' => $this->faker->paragraph(),
             'image' => null,
-            'full_access' => false,
             'status' => 1,
+            'password' => Hash::make('password123'),
         ];
     }
 }

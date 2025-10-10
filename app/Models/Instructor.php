@@ -5,18 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable
+class Instructor extends Authenticatable
 {
     use HasFactory;
 
     protected $fillable = [
         'name',
         'email',
-        'password',
-    
+        'bio',
         'image',
-        
         'status',
+        'password',
     ];
 
     protected $hidden = [
