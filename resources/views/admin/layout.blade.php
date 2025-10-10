@@ -67,7 +67,8 @@
             </li>
             <li class="nav-item"><a class="nav-link" href="{{ route('admin.students.index') }}">Student List</a></li>
             <li class="nav-item"><a class="nav-link" href="{{ route('admin.courses.index') }}">Course List</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Enrollment List</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ route('admin.enrollments.index') }}">Enrollment List</a>
+            </li>
 
             <!-- Logout Button at bottom -->
             <li class="nav-item mt-auto" style="position: absolute; bottom: 20px; width: 180px;">
