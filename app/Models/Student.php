@@ -16,7 +16,6 @@ class Student extends Authenticatable
         'gender',
         'image',
         'bio',
-        'profession',
         'nationality',
         'address',
         'city',
