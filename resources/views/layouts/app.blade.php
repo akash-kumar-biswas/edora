@@ -77,13 +77,13 @@
                 </form>
 
                 <!-- ✅ Conditional Auth Buttons -->
-                @auth
+                @auth('student')
                     <div class="dropdown me-2">
                         <button class="btn btn-outline-light dropdown-toggle" type="button" id="userMenu" data-bs-toggle="dropdown" aria-expanded="false">
-                            👤 {{ Auth::user()->name }}
+                            👤 {{ Auth::guard('student')->user()->name ?? Auth::guard('student')->user()->email }}
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenu">
-                            <li><a class="dropdown-item" href="{{ url('/dashboard') }}">Dashboard</a></li>
+                            <li><a class="dropdown-item" href="{{ route('student.dashboard') }}">Dashboard</a></li>
                             <li>
                                 <form action="{{ route('student.logout') }}" method="POST" class="m-0">
                                     @csrf

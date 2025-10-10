@@ -6,6 +6,7 @@ use App\Http\Controllers\Student\RegisterController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\AdminController;
 
 Route::get('/', function () {
     return view('home');
@@ -35,19 +36,6 @@ Route::get('/courses', [CourseController::class, 'index'])->name('courses.index'
 // Admin routes (using AdminController)
 // ------------------------
 
-// Show admin login page
-Route::get('/admin-login', [AdminController::class, 'login'])->name('admin.login');
-
-// Handle admin login form submission
-Route::post('/admin-login', [AdminController::class, 'authenticate'])->name('admin.authenticate');
-
-// Admin dashboard (protected by AdminMiddleware)
-Route::get('/admin', [AdminController::class, 'dashboard'])
-    ->middleware(\App\Http\Middleware\AdminMiddleware::class)
-    ->name('admin.dashboard');
-
-// Admin logout
-Route::get('/admin-logout', [AdminController::class, 'logout'])->name('admin.logout');
 
 Route::prefix('student')->name('student.')->group(function () {
 
