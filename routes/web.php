@@ -19,6 +19,7 @@ Route::get('/about', function () {
 
 // Courses
 Route::get('/courses', [CourseController::class, 'index'])->name('courses.index');
+Route::get('/courses/{id}', [CourseController::class, 'show'])->name('courses.show');
 
 // ------------------------
 // Admin routes (using AdminController)
