@@ -6,7 +6,7 @@ use App\Http\Controllers\Student\RegisterController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\PaymentController;
-use App\Http\Controllers\AdminController;
+
 
 Route::get('/', function () {
     return view('home');
@@ -84,3 +84,23 @@ Route::middleware('auth')->group(function () {
     Route::get('/payments', [PaymentController::class, 'index'])->name('payments.index');
     Route::post('/checkout', [PaymentController::class, 'checkout'])->name('checkout');
 });
+
+
+// ----------------------------------------------------------------------------------
+
+use App\Http\Controllers\AdminAuthController;
+use App\Http\Controllers\AdminController;
+
+// Admin Login Routes
+Route::get('/admin/login', [AdminAuthController::class, 'showLoginForm'])->name('admin.login');
+Route::post('/admin/login', [AdminAuthController::class, 'login'])->name('admin.login.submit');
+Route::get('/admin/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
+
+// Admin Pages (no middleware, manual session check)
+Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+Route::get('/admin/instructors', [AdminController::class, 'instructors'])->name('admin.instructors');
+Route::get('/admin/students', [AdminController::class, 'students'])->name('admin.students');
+Route::get('/admin/courses', [AdminController::class, 'courses'])->name('admin.courses');
+Route::get('/admin/enrollments', [AdminController::class, 'enrollments'])->name('admin.enrollments');
+
+// ----------------------------------------------------------------------------------
