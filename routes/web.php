@@ -7,6 +7,7 @@ use App\Http\Controllers\CourseController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\PaymentController;
 
+
 Route::get('/', function () {
     return view('home');
 });
@@ -15,8 +16,10 @@ Route::get('/about', function () {
     return view('about');
 });
 
+
 // Courses
 Route::get('/courses', [CourseController::class, 'index'])->name('courses.index');
+Route::get('/courses/{id}', [CourseController::class, 'show'])->name('courses.show');
 
 // ------------------------
 // Admin routes (using AdminController)

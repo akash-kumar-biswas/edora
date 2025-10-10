@@ -8,53 +8,108 @@ use Illuminate\Support\Facades\Hash;
 
 class InstructorController extends Controller
 {
+    // Show list of instructors
     public function index()
     {
-        return response()->json(Instructor::all());
+        $instructors = Instructor::all();
+        return view('admin.instructors.index', compact('instructors'));
     }
 
+    // Show form to create a new instructor
+    public function create()
+    {
+        return view('admin.instructors.create');
+    }
+
+    // Store new instructor
     public function store(Request $request)
     {
         $request->validate([
             'name' => 'required',
             'email' => 'required|email|unique:instructors',
             'password' => 'required|min:6',
+            'image' => 'nullable|image|mimes:jpg,png,jpeg,gif|max:2048',
         ]);
 
-        $instructor = Instructor::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'bio' => $request->bio,
-            'status' => $request->status ?? 1,
-            'password' => Hash::make($request->password),
-        ]);
+        $data = $request->only(['name', 'email', 'bio', 'status']);
+        $data['password'] = Hash::make($request->password);
 
-        return response()->json($instructor, 201);
+        // Handle image upload
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = time().'_'.$image->getClientOriginalName();
+            $image->move(public_path('uploads/instructors'), $imageName);
+            $data['image'] = $imageName;
+        }
+
+        Instructor::create($data);
+
+        return redirect()->route('admin.instructors.index')->with('success', 'Instructor created successfully!');
     }
 
+    // Show instructor details
     public function show($id)
     {
-        return response()->json(Instructor::findOrFail($id));
+        $instructor = Instructor::findOrFail($id);
+        return view('admin.instructors.show', compact('instructor'));
     }
 
-    public function update(Request $request, $id)
+    // Show form to edit instructor
+    public function edit($id)
     {
         $instructor = Instructor::findOrFail($id);
-        $instructor->update($request->except('password'));
+        return view('admin.instructors.edit', compact('instructor'));
+    }
 
+    // Update instructor
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email|unique:instructors,email,'.$id,
+            'password' => 'nullable|min:6',
+            'image' => 'nullable|image|mimes:jpg,png,jpeg,gif|max:2048',
+        ]);
+
+        $instructor = Instructor::findOrFail($id);
+        $data = $request->only(['name', 'email', 'bio', 'status']);
+
+        // Handle image upload
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = time().'_'.$image->getClientOriginalName();
+            $image->move(public_path('uploads/instructors'), $imageName);
+            $data['image'] = $imageName;
+
+            // Delete old image if exists
+            if ($instructor->image && file_exists(public_path('uploads/instructors/'.$instructor->image))) {
+                unlink(public_path('uploads/instructors/'.$instructor->image));
+            }
+        }
+
+        $instructor->update($data);
+
+        // Update password if provided
         if ($request->filled('password')) {
             $instructor->password = Hash::make($request->password);
             $instructor->save();
         }
 
-        return response()->json($instructor);
+        return redirect()->route('admin.instructors.index')->with('success', 'Instructor updated successfully!');
     }
 
+    // Delete instructor
     public function destroy($id)
     {
         $instructor = Instructor::findOrFail($id);
+
+        // Delete image if exists
+        if ($instructor->image && file_exists(public_path('uploads/instructors/'.$instructor->image))) {
+            unlink(public_path('uploads/instructors/'.$instructor->image));
+        }
+
         $instructor->delete();
 
-        return response()->json(['message' => 'Instructor deleted successfully']);
+        return redirect()->route('admin.instructors.index')->with('success', 'Instructor deleted successfully!');
     }
 }

@@ -65,8 +65,8 @@
                     <div class="col-md-6 col-lg-4">
                         <div class="card h-100 shadow-sm course-card">
                             <!-- Course Thumbnail -->
-                            @if($course->thumbnail_image)
-                                <img src="{{ asset('storage/' . $course->thumbnail_image) }}" class="card-img-top" alt="{{ $course->title }}">
+                            @if($course->image)
+                                <img src="{{ asset('storage/' . $course->image) }}" class="card-img-top" alt="{{ $course->title }}">
                             @else
                                 <img src="{{ asset('images/default-course.jpg') }}" class="card-img-top" alt="Default Course">
                             @endif
@@ -97,7 +97,7 @@
                                         @endif
                                     </div>
 
-                                    <a href="#" class="btn btn-sm btn-warning">
+                                    <a href="{{ route('courses.show', $course->id) }}" class="btn btn-sm btn-warning">
                                         View Details
                                     </a>
                                 </div>

@@ -18,7 +18,7 @@ class InstructorFactory extends Factory
             'email' => $this->faker->unique()->safeEmail(),
             'bio' => $this->faker->paragraph(),
             'image' => null,
-            'status' => 1,
+            'status' => rand(0, 1),
             'password' => Hash::make('password123'),
         ];
     }
