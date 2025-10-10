@@ -6,6 +6,8 @@ use App\Http\Controllers\Student\RegisterController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\Auth\AdminRegisterController;
+use App\Http\Controllers\Auth\AdminLoginController;
 
 Route::get('/', function () {
     return view('home');
@@ -14,6 +16,22 @@ Route::get('/', function () {
 Route::get('/about', function () {
     return view('about');
 });
+
+
+// Show registration form
+Route::get('/register', [AdminRegisterController::class, 'showRegistrationForm'])->name('register');
+
+// Handle registration form submission
+Route::post('/register', [AdminRegisterController::class, 'register'])->name('register.store');
+
+// Login form
+Route::get('/login', [AdminLoginController::class, 'showLoginForm'])->name('login');
+
+// Handle login
+Route::post('/login', [AdminLoginController::class, 'login'])->name('login.submit');
+
+// Logout
+Route::post('/logout', [AdminLoginController::class, 'logout'])->name('logout');
 
 // Show login form
 // Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
