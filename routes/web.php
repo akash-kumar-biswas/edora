@@ -70,16 +70,23 @@ Route::get('/admin/login', [AdminAuthController::class, 'showLoginForm'])->name(
 Route::post('/admin/login', [AdminAuthController::class, 'login'])->name('admin.login.submit');
 Route::get('/admin/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
 
-// Admin Pages (no middleware, manual session check)
-Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
-// Route::get('/admin/instructors', [AdminController::class, 'instructors'])->name('admin.instructors');
-Route::get('/admin/students', [AdminController::class, 'students'])->name('admin.students');
-Route::get('/admin/courses', [AdminController::class, 'courses'])->name('admin.courses');
-Route::get('/admin/enrollments', [AdminController::class, 'enrollments'])->name('admin.enrollments');
+// Test route to verify middleware (remove this after testing)
+Route::get('/admin/test', function () {
+    return 'Middleware NOT working - this should redirect!';
+})->middleware('admin.auth');
 
-Route::prefix('admin')->name('admin.')->group(function () {
+// Admin Pages (protected by admin.auth middleware)
+Route::middleware('admin.auth')->group(function () {
+    Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+    // Route::get('/admin/instructors', [AdminController::class, 'instructors'])->name('admin.instructors');
+    Route::get('/admin/students', [AdminController::class, 'students'])->name('admin.students');
+    Route::get('/admin/courses', [AdminController::class, 'courses'])->name('admin.courses');
+    Route::get('/admin/enrollments', [AdminController::class, 'enrollments'])->name('admin.enrollments');
+});
+
+Route::prefix('admin')->name('admin.')->middleware('admin.auth')->group(function () {
     Route::resource('instructors', InstructorController::class);
-    
+
 });
 
 // ----------------------------------------------------------------------------------
