@@ -83,4 +83,20 @@ Route::prefix('admin')->name('admin.')->group(function () {
     
 });
 
-// ----------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------
+
+use App\Http\Controllers\InstructorAuthController;
+
+// Instructor Login & Signup
+Route::get('/instructor/login', [InstructorAuthController::class, 'showLoginForm'])->name('instructor.login');
+Route::post('/instructor/login', [InstructorAuthController::class, 'login'])->name('instructor.login.submit');
+Route::get('/instructor/logout', [InstructorAuthController::class, 'logout'])->name('instructor.logout');
+
+Route::get('/instructor/register', [InstructorAuthController::class, 'showRegisterForm'])->name('instructor.register');
+Route::post('/instructor/register', [InstructorAuthController::class, 'register'])->name('instructor.register.submit');
+
+// Instructor Dashboard
+Route::get('/instructor/dashboard', [InstructorController::class, 'dashboard'])->name('instructor.dashboard');
+
+// ---------------------------------------------------------------------------------------------------------------
+

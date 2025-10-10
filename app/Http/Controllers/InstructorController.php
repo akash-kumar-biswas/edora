@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Instructor;
+use App\Models\Course;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -111,5 +112,22 @@ class InstructorController extends Controller
         $instructor->delete();
 
         return redirect()->route('admin.instructors.index')->with('success', 'Instructor deleted successfully!');
+    }
+
+    // Instructor dashboard
+    public function dashboard()
+    {
+        // Check if instructor is logged in
+        if (!session('instructor_logged_in')) {
+            return redirect()->route('instructor.login');
+        }
+
+        // Get courses created by this instructor
+        $courses = Course::where('instructor_id', session('instructor_id'))->get();
+
+        return view('instructor.dashboard', [
+            'instructor_name' => session('instructor_name'),
+            'courses' => $courses
+        ]);
     }
 }
