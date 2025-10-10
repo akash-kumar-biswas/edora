@@ -78,13 +78,13 @@ Route::get('/admin/test', function () {
 // Admin Pages (protected by admin.auth middleware)
 Route::middleware('admin.auth')->group(function () {
     Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
-    Route::get('/admin/courses', [AdminController::class, 'courses'])->name('admin.courses');
     Route::get('/admin/enrollments', [AdminController::class, 'enrollments'])->name('admin.enrollments');
 });
 
 Route::prefix('admin')->name('admin.')->middleware('admin.auth')->group(function () {
     Route::resource('instructors', InstructorController::class);
     Route::resource('students', App\Http\Controllers\Admin\StudentController::class);
+    Route::resource('courses', App\Http\Controllers\Admin\CourseController::class);
 });
 
 // ----------------------------------------------------------------------------------

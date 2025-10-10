@@ -66,7 +66,7 @@
             <li class="nav-item"><a class="nav-link" href="{{ route('admin.instructors.index') }}">Instructor List</a>
             </li>
             <li class="nav-item"><a class="nav-link" href="{{ route('admin.students.index') }}">Student List</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Course List</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ route('admin.courses.index') }}">Course List</a></li>
             <li class="nav-item"><a class="nav-link" href="#">Enrollment List</a></li>
 
             <!-- Logout Button at bottom -->
@@ -84,7 +84,7 @@
     </div>
 
     <script>
-        $(document).ready(function  () {
+        $(document).ready(function () {
             $('#instructors-table').DataTable({
                 "ordering": true
             });
