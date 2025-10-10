@@ -7,6 +7,7 @@ use App\Http\Controllers\CourseController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\PaymentController;
 
+
 Route::get('/', function () {
     return view('home');
 });
@@ -15,26 +16,16 @@ Route::get('/about', function () {
     return view('about');
 });
 
+
 // Courses
 Route::get('/courses', [CourseController::class, 'index'])->name('courses.index');
+Route::get('/courses/{id}', [CourseController::class, 'show'])->name('courses.show');
 
 // ------------------------
 // Admin routes (using AdminController)
 // ------------------------
 
-// Show admin login page
-Route::get('/admin-login', [AdminController::class, 'login'])->name('admin.login');
 
-// Handle admin login form submission
-Route::post('/admin-login', [AdminController::class, 'authenticate'])->name('admin.authenticate');
-
-// Admin dashboard (protected by AdminMiddleware)
-Route::get('/admin', [AdminController::class, 'dashboard'])
-    ->middleware(\App\Http\Middleware\AdminMiddleware::class)
-    ->name('admin.dashboard');
-
-// Admin logout
-Route::get('/admin-logout', [AdminController::class, 'logout'])->name('admin.logout');
 
 Route::prefix('student')->name('student.')->group(function () {
 
@@ -63,3 +54,36 @@ Route::delete('/cart/clear', [CartController::class, 'clear'])->name('cart.clear
 // Payment routes - protected by custom student auth
 Route::get('/payments', [PaymentController::class, 'index'])->name('payments.index')->middleware('student.auth');
 Route::post('/checkout', [PaymentController::class, 'checkout'])->name('checkout')->middleware('student.auth');
+
+
+
+// ----------------------------------------------------------------------------------
+
+use App\Http\Controllers\AdminAuthController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\InstructorController;
+
+
+// Admin Login Routes
+Route::get('/admin/login', [AdminAuthController::class, 'showLoginForm'])->name('admin.login');
+Route::post('/admin/login', [AdminAuthController::class, 'login'])->name('admin.login.submit');
+Route::get('/admin/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
+
+// Test route to verify middleware (remove this after testing)
+Route::get('/admin/test', function () {
+    return 'Middleware NOT working - this should redirect!';
+})->middleware('admin.auth');
+
+// Admin Pages (protected by admin.auth middleware)
+Route::middleware('admin.auth')->group(function () {
+    Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+    Route::get('/admin/enrollments', [AdminController::class, 'enrollments'])->name('admin.enrollments');
+});
+
+Route::prefix('admin')->name('admin.')->middleware('admin.auth')->group(function () {
+    Route::resource('instructors', InstructorController::class);
+    Route::resource('students', App\Http\Controllers\Admin\StudentController::class);
+    Route::resource('courses', App\Http\Controllers\Admin\CourseController::class);
+});
+
+// ----------------------------------------------------------------------------------

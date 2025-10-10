@@ -16,7 +16,6 @@ return new class extends Migration
             $table->enum('gender', ['male', 'female', 'other'])->nullable();
             $table->string('image')->nullable();
             $table->text('bio')->nullable();
-            $table->string('profession')->nullable();
             $table->string('nationality')->default('Bangladeshi')->nullable();
             $table->text('address')->nullable();
             $table->string('city')->nullable();
