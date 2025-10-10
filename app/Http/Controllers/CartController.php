@@ -12,7 +12,7 @@ class CartController extends Controller
     // Show all courses in student's cart
     public function index()
     {
-        $studentId = Auth::id(); // assuming student is logged in
+        $studentId = Auth::guard('student')->id();
         $cartItems = Cart::with('course')
             ->where('student_id', $studentId)
             ->get();
@@ -23,7 +23,7 @@ class CartController extends Controller
     // Add a course to cart
     public function add(Request $request, $courseId)
     {
-        $studentId = Auth::id();
+        $studentId = Auth::guard('student')->id();
 
         // Prevent duplicate
         $exists = Cart::where('student_id', $studentId)
@@ -43,7 +43,7 @@ class CartController extends Controller
     // Remove a course from cart
     public function remove($id)
     {
-        $studentId = Auth::id();
+        $studentId = Auth::guard('student')->id();
 
         $cartItem = Cart::where('id', $id)
             ->where('student_id', $studentId)
@@ -57,7 +57,7 @@ class CartController extends Controller
     // Clear entire cart
     public function clear()
     {
-        $studentId = Auth::id();
+        $studentId = Auth::guard('student')->id();
         Cart::where('student_id', $studentId)->delete();
 
         return redirect()->back()->with('success', 'Cart cleared!');
