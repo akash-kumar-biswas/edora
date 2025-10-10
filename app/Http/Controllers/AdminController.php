@@ -45,9 +45,26 @@ class AdminController extends Controller
         ]);
     }
 
-    public function students()
+    public function students(Request $request)
     {
-        return view('admin.students', ['admin_name' => session('admin_name')]);
+        // Get sorting parameters
+        $sort_by = $request->get('sort_by', 'id');
+        $sort_order = $request->get('sort_order', 'asc');
+
+        // Validate column to avoid injection
+        $allowed = ['id', 'name', 'email', 'status', 'created_at'];
+        if (!in_array($sort_by, $allowed)) {
+            $sort_by = 'id';
+        }
+
+        $students = Student::orderBy($sort_by, $sort_order)->get();
+
+        return view('admin.students', [
+            'admin_name' => session('admin_name'),
+            'students' => $students,
+            'sort_by' => $sort_by,
+            'sort_order' => $sort_order
+        ]);
     }
 
     public function courses()

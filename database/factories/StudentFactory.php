@@ -19,7 +19,6 @@ class StudentFactory extends Factory
             'gender' => $this->faker->randomElement(['male', 'female', 'other']),
             'image' => null,
             'bio' => $this->faker->paragraph(),
-            'profession' => $this->faker->jobTitle(),
             'nationality' => 'Bangladeshi',
             'address' => $this->faker->address(),
             'city' => $this->faker->city(),

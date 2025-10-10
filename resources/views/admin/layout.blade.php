@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>@yield('title', 'Admin Dashboard')</title>
@@ -32,7 +33,7 @@
         .sidebar h4 {
             text-align: center;
             margin-bottom: 1rem;
-            border-bottom: 1px solid rgba(255,255,255,0.2);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
             padding-bottom: 10px;
         }
 
@@ -56,23 +57,24 @@
         }
     </style>
 </head>
+
 <body>
     <div class="sidebar">
         <h4>Admin Panel</h4>
         <ul class="nav flex-column mt-3">
             <li class="nav-item"><a class="nav-link" href="{{ url('/admin/dashboard') }}">Dashboard</a></li>
-            <li class="nav-item"><a class="nav-link" href="{{ route('admin.instructors.index') }}">Instructor List</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Student List</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ route('admin.instructors.index') }}">Instructor List</a>
+            </li>
+            <li class="nav-item"><a class="nav-link" href="{{ route('admin.students.index') }}">Student List</a></li>
             <li class="nav-item"><a class="nav-link" href="#">Course List</a></li>
             <li class="nav-item"><a class="nav-link" href="#">Enrollment List</a></li>
 
             <!-- Logout Button at bottom -->
             <li class="nav-item mt-auto" style="position: absolute; bottom: 20px; width: 180px;">
-                <a class="nav-link text-danger d-flex align-items-center" 
-                   href="{{ route('admin.logout') }}">
+                <a class="nav-link text-danger d-flex align-items-center" href="{{ route('admin.logout') }}">
                     <i class="bi bi-box-arrow-right me-2"></i> Logout
                 </a>
-                
+
             </li>
         </ul>
     </div>
@@ -82,11 +84,12 @@
     </div>
 
     <script>
-        $(document).ready(function() {
+        $(document).ready(function  () {
             $('#instructors-table').DataTable({
                 "ordering": true
             });
         });
     </script>
 </body>
+
 </html>
