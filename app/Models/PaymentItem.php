@@ -10,16 +10,22 @@ class PaymentItem extends Model
     use HasFactory;
 
     protected $fillable = [
-        'payment_id', 'course_id', 'price'
+        'payment_id',
+        'course_id',
+        'price',
+    ];
+
+    protected $casts = [
+        'price' => 'decimal:2',
     ];
 
     public function payment()
     {
-        return $this->belongsTo(Payment::class);
+        return $this->belongsTo(\App\Models\Payment::class);
     }
 
     public function course()
     {
-        return $this->belongsTo(Course::class);
+        return $this->belongsTo(\App\Models\Course::class);
     }
 }

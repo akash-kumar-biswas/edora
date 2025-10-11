@@ -6,26 +6,16 @@
     <table class="table table-bordered mt-3">
         <thead>
             <tr>
-                <th>Product</th>
+                <th>Course</th>
                 <th>Price</th>
-                <th>Qty</th>
-                <th>Total</th>
                 <th>Action</th>
             </tr>
         </thead>
         <tbody>
             @forelse ($cartItems as $item)
                 <tr>
-                    <td>{{ $item->product->name }}</td>
-                    <td>${{ $item->product->price }}</td>
-                    <td>
-                        <form action="{{ route('cart.update', $item->id) }}" method="POST" class="d-inline">
-                            @csrf
-                            <input type="number" name="quantity" value="{{ $item->quantity }}" min="1" class="form-control d-inline" style="width: 70px;">
-                            <button type="submit" class="btn btn-sm btn-success">Update</button>
-                        </form>
-                    </td>
-                    <td>${{ $item->product->price * $item->quantity }}</td>
+                    <td>{{ $item->course->title ?? 'Course Title' }}</td>
+                    <td>${{ $item->course->price ?? 0 }}</td>
                     <td>
                         <form action="{{ route('cart.remove', $item->id) }}" method="POST" class="d-inline">
                             @csrf
@@ -36,10 +26,36 @@
                 </tr>
             @empty
                 <tr>
-                    <td colspan="5" class="text-center">Your cart is empty.</td>
+                    <td colspan="3" class="text-center">Your cart is empty.</td>
                 </tr>
             @endforelse
         </tbody>
     </table>
+    
+    @if($cartItems->count() > 0)
+        <div class="row mt-4">
+            <div class="col-md-6 offset-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Cart Summary</h5>
+                        <table class="table table-borderless">
+                            <tr>
+                                <td><strong>Total Items:</strong></td>
+                                <td>{{ $cartItems->count() }}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Total Price:</strong></td>
+                                <td>${{ $cartItems->sum(function($item) { return $item->course->price ?? 0; }) }}</td>
+                            </tr>
+                        </table>
+                        <form action="{{ route('checkout') }}" method="POST">
+                            @csrf
+                            <button type="submit" class="btn btn-success btn-block">Complete Purchase</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
 </div>
 @endsection

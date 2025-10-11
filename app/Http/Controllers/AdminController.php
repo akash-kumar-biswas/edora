@@ -28,10 +28,8 @@ class AdminController extends Controller
 
         $totalEnrollments = Enrollment::count();
 
-        // Get payment statistics - Calculate from payment_items table
+        // Get payment statistics
         $totalRevenue = PaymentItem::sum('price');
-
-        // Get this month's revenue from payment_items joined with payments
         $thisMonthRevenue = PaymentItem::whereHas('payment', function ($query) {
             $query->whereYear('created_at', date('Y'))
                 ->whereMonth('created_at', date('m'));
@@ -234,10 +232,11 @@ class AdminController extends Controller
 
             // Revenue Statistics
             fputcsv($file, ['REVENUE STATISTICS']);
-            $totalRevenue = Payment::sum('amount');
-            $thisMonthRevenue = Payment::whereYear('created_at', date('Y'))
-                ->whereMonth('created_at', date('m'))
-                ->sum('amount');
+            $totalRevenue = PaymentItem::sum('price');
+            $thisMonthRevenue = PaymentItem::whereHas('payment', function ($query) {
+                $query->whereYear('created_at', date('Y'))
+                    ->whereMonth('created_at', date('m'));
+            })->sum('price');
             fputcsv($file, ['Total Revenue', '$' . number_format($totalRevenue, 2)]);
             fputcsv($file, ['This Month Revenue', '$' . number_format($thisMonthRevenue, 2)]);
 

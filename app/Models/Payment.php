@@ -12,24 +12,23 @@ class Payment extends Model
     protected $fillable = [
         'student_id',
         'method',
-        'txnid',
         'status',
-        'amount'
+        'total_amount',
+        'txnid',
+    ];
+
+    protected $casts = [
+        'total_amount' => 'decimal:2',
+        'status' => 'boolean',
     ];
 
     public function student()
     {
-        return $this->belongsTo(Student::class);
+        return $this->belongsTo(\App\Models\Student::class);
     }
 
     public function items()
     {
-        return $this->hasMany(PaymentItem::class);
-    }
-
-    // Calculate total amount from payment items
-    public function getTotalAmountAttribute()
-    {
-        return $this->items()->sum('price');
+        return $this->hasMany(\App\Models\PaymentItem::class);
     }
 }

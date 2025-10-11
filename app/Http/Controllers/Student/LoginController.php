@@ -38,10 +38,12 @@ class LoginController extends Controller
         $student = Auth::guard('student')->user();
 
         // Get all enrolled courses with instructor info
-        $allCourses = $student->courses()
-            ->with('instructor')
-            ->withPivot('created_at')
-            ->get();
+        $allCourses = \App\Models\Enrollment::with(['course.instructor'])
+            ->where('student_id', $student->id)
+            ->get()
+            ->pluck('course')
+            ->unique('id')
+            ->values();
 
         // Calculate progress for each course (for now, using random percentage)
         $allCourses->each(function ($course) {
@@ -52,10 +54,10 @@ class LoginController extends Controller
         $enrolledCount = $allCourses->count();
 
         // Get completed courses count (courses with 100% progress)
-        $completedCount = 0; // Replace with actual completed course logic
+        $completedCount = $allCourses->where('progress', 100)->count();
 
         // Get purchase history - fetch payment_items grouped by payment_id
-        $purchaseHistory = \App\Models\PaymentItem::with(['payment.student', 'course.instructor'])
+        $purchaseHistory = \App\Models\PaymentItem::with(['payment', 'course.instructor'])
             ->whereHas('payment', function ($query) use ($student) {
                 $query->where('student_id', $student->id);
             })
@@ -69,7 +71,7 @@ class LoginController extends Controller
                     'total_price' => $items->sum('price'),
                     'total_courses' => $items->count(),
                     'created_at' => $items->first()->payment->created_at,
-                    'txnid' => $items->first()->payment->txnid,
+                    'txnid' => $items->first()->payment->txnid ?? 'N/A',
                 ];
             })
             ->sortByDesc('created_at')
