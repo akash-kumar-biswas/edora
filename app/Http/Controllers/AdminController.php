@@ -7,6 +7,7 @@ use App\Models\Student;
 use App\Models\Course;
 use App\Models\Enrollment;
 use App\Models\Payment;
+use App\Models\PaymentItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -27,16 +28,20 @@ class AdminController extends Controller
 
         $totalEnrollments = Enrollment::count();
 
-        // Get payment statistics
-        $totalRevenue = Payment::sum('amount');
-        $thisMonthRevenue = Payment::whereYear('created_at', date('Y'))
-            ->whereMonth('created_at', date('m'))
-            ->sum('amount');
+        // Get payment statistics - Calculate from payment_items table
+        $totalRevenue = PaymentItem::sum('price');
+
+        // Get this month's revenue from payment_items joined with payments
+        $thisMonthRevenue = PaymentItem::whereHas('payment', function ($query) {
+            $query->whereYear('created_at', date('Y'))
+                ->whereMonth('created_at', date('m'));
+        })->sum('price');
 
         // Calculate last month's revenue for growth comparison
-        $lastMonthRevenue = Payment::whereYear('created_at', date('Y', strtotime('-1 month')))
-            ->whereMonth('created_at', date('m', strtotime('-1 month')))
-            ->sum('amount');
+        $lastMonthRevenue = PaymentItem::whereHas('payment', function ($query) {
+            $query->whereYear('created_at', date('Y', strtotime('-1 month')))
+                ->whereMonth('created_at', date('m', strtotime('-1 month')));
+        })->sum('price');
 
         // Calculate growth percentage
         if ($lastMonthRevenue > 0) {
