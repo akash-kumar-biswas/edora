@@ -17,120 +17,32 @@
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             min-height: 100vh;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #f5f5f5;
             display: flex;
             align-items: center;
             justify-content: center;
-            position: relative;
-            overflow-y: auto;
-            padding: 20px 10px;
-        }
-
-        /* Animated Background Shapes */
-        .bg-shape {
-            position: absolute;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.1);
-            animation: float 20s infinite ease-in-out;
-        }
-
-        .bg-shape:nth-child(1) {
-            width: 300px;
-            height: 300px;
-            top: -150px;
-            left: -150px;
-            animation-delay: 0s;
-        }
-
-        .bg-shape:nth-child(2) {
-            width: 200px;
-            height: 200px;
-            bottom: -100px;
-            right: -100px;
-            animation-delay: 2s;
-        }
-
-        .bg-shape:nth-child(3) {
-            width: 250px;
-            height: 250px;
-            top: 50%;
-            right: -125px;
-            animation-delay: 4s;
-        }
-
-        @keyframes float {
-
-            0%,
-            100% {
-                transform: translateY(0) rotate(0deg);
-                opacity: 0.3;
-            }
-
-            50% {
-                transform: translateY(-20px) rotate(180deg);
-                opacity: 0.1;
-            }
+            padding: 20px;
         }
 
         /* Login Container */
         .login-container {
-            position: relative;
-            z-index: 10;
             width: 100%;
-            max-width: 450px;
-            padding: 0;
-            margin: auto;
+            max-width: 440px;
         }
 
-        /* Login Card */
+        /* Login Card - Clean White Design */
         .login-card {
-            background: rgba(255, 255, 255, 0.98);
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
             overflow: hidden;
-            animation: slideUp 0.6s ease-out;
         }
 
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Header Section */
+        /* Header Section - Simple Purple */
         .login-header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            padding: 30px 25px;
+            background: #8b5cf6;
+            padding: 40px 30px;
             text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .login-header::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-            animation: shimmer 3s infinite;
-        }
-
-        @keyframes shimmer {
-            0% {
-                transform: translateX(-100%) translateY(-100%) rotate(45deg);
-            }
-
-            100% {
-                transform: translateX(100%) translateY(100%) rotate(45deg);
-            }
         }
 
         .login-header .logo-icon {
@@ -141,23 +53,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 15px;
-            position: relative;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-
-            0%,
-            100% {
-                transform: scale(1);
-                box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7);
-            }
-
-            50% {
-                transform: scale(1.05);
-                box-shadow: 0 0 0 10px rgba(255, 255, 255, 0);
-            }
+            margin: 0 auto 20px;
         }
 
         .login-header .logo-icon i {
@@ -167,171 +63,130 @@
 
         .login-header h2 {
             color: white;
-            font-weight: 700;
-            margin-bottom: 5px;
+            font-weight: 600;
+            margin-bottom: 8px;
             font-size: 1.75rem;
-            letter-spacing: 2px;
-            position: relative;
+            letter-spacing: 1px;
         }
 
         .login-header p {
-            color: rgba(255, 255, 255, 0.9);
+            color: rgba(255, 255, 255, 0.95);
             margin: 0;
             font-size: 0.95rem;
-            position: relative;
         }
 
         /* Form Section */
         .login-body {
-            padding: 30px 30px;
+            padding: 35px 30px;
         }
 
         .form-label {
             font-weight: 600;
-            color: #333;
+            color: #374151;
             margin-bottom: 8px;
             font-size: 0.9rem;
         }
 
         .input-group-custom {
             position: relative;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
 
         .input-icon {
             position: absolute;
             left: 15px;
-            top: calc(50% + 14px);
+            top: 50%;
             transform: translateY(-50%);
-            color: #667eea;
+            color: #9ca3af;
             font-size: 1.1rem;
             z-index: 10;
         }
 
         .form-control {
-            height: 50px;
+            height: 48px;
             padding-left: 45px;
-            border: 2px solid #e0e0e0;
-            border-radius: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
             font-size: 0.95rem;
-            transition: all 0.3s ease;
+            transition: border-color 0.2s ease;
         }
 
         .form-control:focus {
-            border-color: #667eea;
-            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+            border-color: #8b5cf6;
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
             outline: none;
         }
 
         .form-control::placeholder {
-            color: #aaa;
+            color: #9ca3af;
         }
 
         /* Password Toggle */
         .password-toggle {
             position: absolute;
             right: 15px;
-            top: calc(50% + 14px);
+            top: 50%;
             transform: translateY(-50%);
-            color: #999;
+            color: #9ca3af;
             cursor: pointer;
             font-size: 1.1rem;
-            transition: color 0.3s ease;
             z-index: 10;
         }
 
         .password-toggle:hover {
-            color: #667eea;
+            color: #8b5cf6;
         }
 
-        /* Login Button */
+        /* Login Button - Simple Purple */
         .btn-login {
-            height: 50px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            height: 48px;
+            background: #8b5cf6;
             border: none;
-            border-radius: 12px;
+            border-radius: 6px;
             color: white;
             font-weight: 600;
             font-size: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn-login::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.2);
-            transform: translate(-50%, -50%);
-            transition: width 0.6s, height 0.6s;
-        }
-
-        .btn-login:hover::before {
-            width: 300px;
-            height: 300px;
+            letter-spacing: 0.5px;
+            transition: background 0.2s ease;
         }
 
         .btn-login:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+            background: #7c3aed;
         }
 
         .btn-login:active {
-            transform: translateY(0);
+            background: #6d28d9;
         }
 
         .btn-login i {
             margin-left: 8px;
         }
 
-        /* Alert Styling */
+        /* Alert Styling - Simple */
         .alert-danger {
-            border-radius: 12px;
-            border: none;
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            color: white;
-            border-left: 4px solid #d63447;
-            animation: shake 0.5s;
-        }
-
-        @keyframes shake {
-
-            0%,
-            100% {
-                transform: translateX(0);
-            }
-
-            25% {
-                transform: translateX(-10px);
-            }
-
-            75% {
-                transform: translateX(10px);
-            }
+            border-radius: 6px;
+            border: 1px solid #fecaca;
+            background: #fee2e2;
+            color: #991b1b;
+            padding: 12px 16px;
+            margin-bottom: 20px;
         }
 
         .alert-danger i {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             margin-right: 8px;
         }
 
         /* Footer */
         .login-footer {
             text-align: center;
-            padding: 15px;
-            color: rgba(255, 255, 255, 0.9);
-            font-size: 0.85rem;
+            padding: 20px;
+            color: #6b7280;
+            font-size: 0.875rem;
         }
 
         .login-footer a {
-            color: white;
+            color: #8b5cf6;
             text-decoration: none;
             font-weight: 600;
         }
@@ -343,15 +198,11 @@
         /* Responsive */
         @media (max-width: 576px) {
             body {
-                padding: 15px 10px;
-            }
-
-            .login-container {
-                padding: 0;
+                padding: 15px;
             }
 
             .login-header {
-                padding: 25px 20px;
+                padding: 30px 20px;
             }
 
             .login-body {
@@ -365,27 +216,18 @@
             .login-header .logo-icon {
                 width: 60px;
                 height: 60px;
-                margin-bottom: 10px;
+                margin-bottom: 15px;
             }
 
             .login-header .logo-icon i {
                 font-size: 1.75rem;
             }
-
-            .login-footer {
-                padding: 10px;
-                font-size: 0.8rem;
-            }
         }
     </style>
+
 </head>
 
 <body>
-    <!-- Animated Background Shapes -->
-    <div class="bg-shape"></div>
-    <div class="bg-shape"></div>
-    <div class="bg-shape"></div>
-
     <div class="login-container">
         <!-- Login Card -->
         <div class="login-card">
@@ -411,20 +253,24 @@
                     @csrf
 
                     <!-- Email Input -->
-                    <div class="input-group-custom">
+                    <div class="mb-3">
                         <label for="email" class="form-label">Email Address</label>
-                        <i class="bi bi-envelope-fill input-icon"></i>
-                        <input type="email" name="email" id="email" class="form-control" placeholder="Enter your email"
-                            required autofocus>
+                        <div class="input-group-custom">
+                            <i class="bi bi-envelope-fill input-icon"></i>
+                            <input type="email" name="email" id="email" class="form-control"
+                                placeholder="Enter your email" required autofocus>
+                        </div>
                     </div>
 
                     <!-- Password Input -->
-                    <div class="input-group-custom">
+                    <div class="mb-4">
                         <label for="password" class="form-label">Password</label>
-                        <i class="bi bi-lock-fill input-icon"></i>
-                        <input type="password" name="password" id="password" class="form-control"
-                            placeholder="Enter your password" required>
-                        <i class="bi bi-eye-fill password-toggle" id="togglePassword"></i>
+                        <div class="input-group-custom">
+                            <i class="bi bi-lock-fill input-icon"></i>
+                            <input type="password" name="password" id="password" class="form-control"
+                                placeholder="Enter your password" required>
+                            <i class="bi bi-eye-fill password-toggle" id="togglePassword"></i>
+                        </div>
                     </div>
 
                     <!-- Login Button -->
