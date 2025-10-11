@@ -19,7 +19,9 @@
                             <p><strong>Country:</strong> {{ $student->country ?? 'Not set' }}</p>
                             <p><strong>Member Since:</strong> {{ $student->created_at->format('M d, Y') }}</p>
                         </div>
-                        
+                        <div class="col-md-6 text-end">
+                            <img src="{{ asset('frontend/dist/images/Contact/image.jpg') }}" alt="Profile" class="img-fluid rounded-circle" style="width: 100px; height: 100px;">
+                        </div>
                     </div>
                     <div class="mt-4">
                         <a href="{{ route('student.profile.edit') }}" class="btn btn-primary">Edit Profile</a>

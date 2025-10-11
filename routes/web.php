@@ -7,7 +7,6 @@ use App\Http\Controllers\CourseController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\PaymentController;
 
-
 Route::get('/', function () {
     return view('home');
 });
@@ -16,7 +15,6 @@ Route::get('/about', function () {
     return view('about');
 });
 
-
 // Courses
 Route::get('/courses', [CourseController::class, 'index'])->name('courses.index');
 Route::get('/courses/{id}', [CourseController::class, 'show'])->name('courses.show');
@@ -24,8 +22,6 @@ Route::get('/courses/{id}', [CourseController::class, 'show'])->name('courses.sh
 // ------------------------
 // Admin routes (using AdminController)
 // ------------------------
-
-
 
 Route::prefix('student')->name('student.')->group(function () {
 
@@ -42,6 +38,8 @@ Route::prefix('student')->name('student.')->group(function () {
         Route::get('dashboard', [LoginController::class, 'dashboard'])->name('dashboard');
         Route::post('logout', [LoginController::class, 'logout'])->name('logout');
         Route::get('profile', [LoginController::class, 'profile'])->name('profile');
+        Route::get('profile/edit', [LoginController::class, 'editProfile'])->name('profile.edit');
+        Route::put('profile/update', [LoginController::class, 'updateProfile'])->name('profile.update');
     });
 });
 
@@ -55,14 +53,11 @@ Route::delete('/cart/clear', [CartController::class, 'clear'])->name('cart.clear
 Route::get('/payments', [PaymentController::class, 'index'])->name('payments.index')->middleware('student.auth');
 Route::post('/checkout', [PaymentController::class, 'checkout'])->name('checkout')->middleware('student.auth');
 
-
-
 // ----------------------------------------------------------------------------------
 
 use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\InstructorController;
-
 
 // Admin Login Routes
 Route::get('/admin/login', [AdminAuthController::class, 'showLoginForm'])->name('admin.login');
