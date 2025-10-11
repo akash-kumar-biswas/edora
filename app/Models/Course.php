@@ -18,12 +18,18 @@ class Course extends Model
         'price',
         'difficulty',
         'image',
+        'content_url',
         'status',
     ];
 
     public function instructor()
     {
         return $this->belongsTo(Instructor::class);
+    }
+
+    public function enrollments()
+    {
+        return $this->hasMany(Enrollment::class);
     }
 
     public function students()

@@ -22,10 +22,10 @@
     </div>
 </section>
 
-<!-- 💡 Why You'll Learn With Eduguard -->
+<!-- 💡 Why You'll Learn With Edora -->
 <section class="py-5 bg-light text-center">
     <div class="container">
-        <h2 class="fw-bold mb-5">Why You'll Learn with Eduguard</h2>
+        <h2 class="fw-bold mb-5">Why You'll Learn with Edora</h2>
         <div class="row g-4">
             <div class="col-lg-4 col-md-6">
                 <div class="cardFeature shadow-sm p-4 h-100">
