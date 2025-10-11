@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Student;
 use App\Models\Enrollment;
+use App\Models\Course;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class StudentController extends Controller
 {
@@ -81,5 +83,106 @@ class StudentController extends Controller
         $student->delete();
 
         return response()->json(['message' => 'Student deleted successfully']);
+    }
+
+    public function watchCourse(Course $course)
+    {
+        $student = Auth::guard('student')->user();
+
+        if (!$student) {
+            return redirect()->route('student.login');
+        }
+
+        $isEnrolled = $student->courses()->where('courses.id', $course->id)->exists();
+
+        if (!$isEnrolled) {
+            return redirect()->route('student.dashboard')->with('error', 'You are not enrolled in this course.');
+        }
+
+        $videoData = $this->resolveVideoSource($course->content_url);
+
+        return view('student.watch-course', [
+            'course' => $course,
+            'videoType' => $videoData['type'],
+            'videoUrl' => $videoData['url'],
+            'videoMime' => $videoData['mime'],
+        ]);
+    }
+
+    protected function resolveVideoSource(?string $contentUrl): array
+    {
+        if (!$contentUrl) {
+            return ['type' => 'none', 'url' => null, 'mime' => null];
+        }
+
+        $url = trim($contentUrl);
+
+        if (!Str::startsWith($url, ['http://', 'https://'])) {
+            $url = asset($url);
+        }
+
+        if (Str::contains($url, ['youtube.com', 'youtu.be'])) {
+            $videoId = null;
+
+            if (Str::contains($url, 'youtu.be')) {
+                $segments = explode('/', parse_url($url, PHP_URL_PATH) ?? '');
+                $videoId = end($segments);
+            } else {
+                parse_str(parse_url($url, PHP_URL_QUERY) ?? '', $query);
+                $videoId = $query['v'] ?? null;
+
+                if (!$videoId && Str::contains($url, '/embed/')) {
+                    $segments = explode('/', parse_url($url, PHP_URL_PATH) ?? '');
+                    $videoId = end($segments);
+                }
+            }
+
+            if ($videoId) {
+                return [
+                    'type' => 'iframe',
+                    'url' => 'https://www.youtube.com/embed/' . $videoId,
+                    'mime' => null,
+                ];
+            }
+        }
+
+        if (Str::contains($url, ['vimeo.com'])) {
+            $path = trim(parse_url($url, PHP_URL_PATH) ?? '', '/');
+            if ($path) {
+                if (Str::startsWith($path, 'player.vimeo.com/video')) {
+                    return ['type' => 'iframe', 'url' => $url, 'mime' => null];
+                }
+
+                $segments = explode('/', $path);
+                $videoId = end($segments);
+
+                if ($videoId) {
+                    return [
+                        'type' => 'iframe',
+                        'url' => 'https://player.vimeo.com/video/' . $videoId,
+                        'mime' => null,
+                    ];
+                }
+            }
+        }
+
+        $extension = strtolower(pathinfo(parse_url($url, PHP_URL_PATH) ?? '', PATHINFO_EXTENSION));
+
+        $videoMimeMap = [
+            'mp4' => 'video/mp4',
+            'webm' => 'video/webm',
+            'ogv' => 'video/ogg',
+            'ogg' => 'video/ogg',
+        ];
+
+        if ($extension && array_key_exists($extension, $videoMimeMap)) {
+            return [
+                'type' => 'video',
+                'url' => $url,
+                'mime' => $videoMimeMap[$extension],
+            ];
+        }
+
+        return ['type' => 'iframe', 'url' => $url, 'mime' => null];
     }
 }
