@@ -33,6 +33,22 @@ class AdminController extends Controller
             ->whereMonth('created_at', date('m'))
             ->sum('amount');
 
+        // Calculate last month's revenue for growth comparison
+        $lastMonthRevenue = Payment::whereYear('created_at', date('Y', strtotime('-1 month')))
+            ->whereMonth('created_at', date('m', strtotime('-1 month')))
+            ->sum('amount');
+
+        // Calculate growth percentage
+        if ($lastMonthRevenue > 0) {
+            $growthPercentage = (($thisMonthRevenue - $lastMonthRevenue) / $lastMonthRevenue) * 100;
+        } else {
+            // If no revenue last month, show 100% growth if there's revenue this month
+            $growthPercentage = $thisMonthRevenue > 0 ? 100 : 0;
+        }
+
+        // Determine growth direction
+        $growthDirection = $thisMonthRevenue >= $lastMonthRevenue ? 'up' : 'down';
+
         // Get recent enrollments (last 5)
         $recentEnrollments = Enrollment::with(['student', 'course'])
             ->orderBy('created_at', 'desc')
@@ -107,6 +123,9 @@ class AdminController extends Controller
             'totalEnrollments' => $totalEnrollments,
             'totalRevenue' => $totalRevenue,
             'thisMonthRevenue' => $thisMonthRevenue,
+            'lastMonthRevenue' => $lastMonthRevenue,
+            'growthPercentage' => $growthPercentage,
+            'growthDirection' => $growthDirection,
             'recentEnrollments' => $recentEnrollments,
             'popularCourses' => $popularCourses,
             'monthLabels' => $monthLabels,

@@ -1,27 +1,109 @@
 @extends('admin.layout')
 
 @section('content')
+    <style>
+        /* Gradient Header Animations */
+        @keyframes gradient-shift {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        @keyframes shimmer {
+            0% {
+                opacity: 0.8;
+            }
+
+            50% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0.8;
+            }
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-5px);
+            }
+        }
+
+        .gradient-header {
+            background: linear-gradient(-45deg, #667eea, #764ba2, #f093fb, #4facfe);
+            background-size: 400% 400%;
+            animation: gradient-shift 15s ease infinite;
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #ffffff, #f0f0f0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+            font-size: 2.5rem;
+            margin: 0;
+            animation: shimmer 2s ease-in-out infinite;
+        }
+
+        .welcome-text {
+            color: rgba(255, 255, 255, 0.9);
+            margin: 0.5rem 0 0 0;
+            font-size: 1rem;
+        }
+
+        .btn-gradient-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            color: white;
+            padding: 0.6rem 1.5rem;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-gradient-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+            color: white;
+        }
+    </style>
+
     <div class="container-fluid">
         <!-- Header Section -->
-        <div class="row mb-4">
-            <div class="col-12">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <h1 class="fw-bold mb-1"
-                            style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
-                            Dashboard Overview
-                        </h1>
-                        <p class="text-muted mb-0">
-                            <i class="bi bi-hand-thumbs-up-fill me-2"></i>Welcome back, <strong>{{ $admin_name }}</strong>!
-                            <span class="ms-2 text-muted">|</span>
-                            <i class="bi bi-calendar3 ms-2 me-1"></i>{{ date('l, F d, Y') }}
-                        </p>
-                    </div>
-                    <div>
-                        <a href="{{ route('admin.export') }}" class="btn btn-outline-primary btn-sm">
-                            <i class="bi bi-download me-1"></i>Export Report
-                        </a>
-                    </div>
+        <div class="gradient-header">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h1 class="gradient-text">Dashboard Overview</h1>
+                    <p class="welcome-text">
+                        <i class="bi bi-hand-thumbs-up-fill me-2"></i>Welcome back, <strong>{{ $admin_name }}</strong>!
+                        <span class="ms-2">|</span>
+                        <i class="bi bi-calendar3 ms-2 me-1"></i>{{ date('l, F d, Y') }}
+                    </p>
+                </div>
+                <div>
+                    <a href="{{ route('admin.export') }}" class="btn-gradient-primary">
+                        <i class="bi bi-download me-1"></i>Export Report
+                    </a>
                 </div>
             </div>
         </div>
@@ -31,9 +113,9 @@
             <!-- Total Students Card -->
             <div class="col-xl-3 col-md-6">
                 <div class="card border-0 shadow-sm h-100 stats-card"
-                    style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
-                    <div class="card-body text-white position-relative overflow-hidden">
-                        <div class="position-absolute top-0 end-0 p-3 opacity-25">
+                    style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 15px; overflow: hidden; animation: float 3s ease-in-out infinite;">
+                    <div class="card-body text-white position-relative">
+                        <div class="position-absolute top-0 end-0 p-3" style="opacity: 0.15;">
                             <i class="bi bi-people-fill text-white" style="font-size: 5rem;"></i>
                         </div>
                         <div class="position-relative">
@@ -63,9 +145,9 @@
             <!-- Total Instructors Card -->
             <div class="col-xl-3 col-md-6">
                 <div class="card border-0 shadow-sm h-100 stats-card"
-                    style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
-                    <div class="card-body text-white position-relative overflow-hidden">
-                        <div class="position-absolute top-0 end-0 p-3 opacity-25">
+                    style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); border-radius: 15px; overflow: hidden; animation: float 3s ease-in-out infinite 0.5s;">
+                    <div class="card-body text-white position-relative">
+                        <div class="position-absolute top-0 end-0 p-3" style="opacity: 0.15;">
                             <i class="bi bi-person-badge-fill text-white" style="font-size: 5rem;"></i>
                         </div>
                         <div class="position-relative">
@@ -95,9 +177,9 @@
             <!-- Total Courses Card -->
             <div class="col-xl-3 col-md-6">
                 <div class="card border-0 shadow-sm h-100 stats-card"
-                    style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
-                    <div class="card-body text-white position-relative overflow-hidden">
-                        <div class="position-absolute top-0 end-0 p-3 opacity-25">
+                    style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); border-radius: 15px; overflow: hidden; animation: float 3s ease-in-out infinite 1s;">
+                    <div class="card-body text-white position-relative">
+                        <div class="position-absolute top-0 end-0 p-3" style="opacity: 0.15;">
                             <i class="bi bi-book-fill text-white" style="font-size: 5rem;"></i>
                         </div>
                         <div class="position-relative">
@@ -127,9 +209,9 @@
             <!-- Total Enrollments Card -->
             <div class="col-xl-3 col-md-6">
                 <div class="card border-0 shadow-sm h-100 stats-card"
-                    style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
-                    <div class="card-body text-white position-relative overflow-hidden">
-                        <div class="position-absolute top-0 end-0 p-3 opacity-25">
+                    style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); border-radius: 15px; overflow: hidden; animation: float 3s ease-in-out infinite 1.5s;">
+                    <div class="card-body text-white position-relative">
+                        <div class="position-absolute top-0 end-0 p-3" style="opacity: 0.15;">
                             <i class="bi bi-clipboard-check-fill text-white" style="font-size: 5rem;"></i>
                         </div>
                         <div class="position-relative">
@@ -161,9 +243,9 @@
         <div class="row g-4 mb-4">
             <!-- Total Revenue Card -->
             <div class="col-xl-6">
-                <div class="card border-0 shadow-sm h-100 revenue-card"
-                    style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
-                    <div class="card-body text-white position-relative overflow-hidden">
+                <div class="card border-0 shadow-sm h-100"
+                    style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); border-radius: 15px; overflow: hidden; animation: float 3s ease-in-out infinite;">
+                    <div class="card-body text-white position-relative">
                         <div class="position-absolute" style="top: -20px; right: -20px; font-size: 10rem; opacity: 0.1;">
                             <i class="bi bi-cash-stack"></i>
                         </div>
@@ -175,7 +257,7 @@
                                             <i class="bi bi-cash-stack fs-3"></i>
                                         </div>
                                         <div>
-                                            <p class="mb-1 opacity-75">Total Revenue</p>
+                                            <p class="mb-1" style="opacity: 0.85;">Total Revenue</p>
                                             <h1 class="fw-bold mb-0 display-5">${{ number_format($totalRevenue, 2) }}</h1>
                                         </div>
                                     </div>
@@ -186,11 +268,11 @@
                             </div>
                             <div class="row mt-4 pt-3 border-top border-white border-opacity-25">
                                 <div class="col-6">
-                                    <p class="mb-1 small opacity-75">Total Payments</p>
+                                    <p class="mb-1 small" style="opacity: 0.85;">Total Payments</p>
                                     <h5 class="mb-0 fw-bold">{{ App\Models\Payment::count() }}</h5>
                                 </div>
                                 <div class="col-6">
-                                    <p class="mb-1 small opacity-75">Avg. Transaction</p>
+                                    <p class="mb-1 small" style="opacity: 0.85;">Avg. Transaction</p>
                                     <h5 class="mb-0 fw-bold">
                                         ${{ App\Models\Payment::count() > 0 ? number_format($totalRevenue / App\Models\Payment::count(), 2) : '0.00' }}
                                     </h5>
@@ -203,9 +285,9 @@
 
             <!-- This Month Revenue Card -->
             <div class="col-xl-6">
-                <div class="card border-0 shadow-sm h-100 revenue-card"
-                    style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);">
-                    <div class="card-body text-dark position-relative overflow-hidden">
+                <div class="card border-0 shadow-sm h-100"
+                    style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); border-radius: 15px; overflow: hidden; animation: float 3s ease-in-out infinite 0.5s;">
+                    <div class="card-body text-dark position-relative">
                         <div class="position-absolute" style="top: -20px; right: -20px; font-size: 10rem; opacity: 0.1;">
                             <i class="bi bi-graph-up-arrow"></i>
                         </div>
@@ -236,8 +318,10 @@
                                 </div>
                                 <div class="col-6">
                                     <p class="mb-1 small text-muted">Growth</p>
-                                    <h5 class="mb-0 fw-bold text-success">
-                                        <i class="bi bi-arrow-up"></i>12.5%
+                                    <h5
+                                        class="mb-0 fw-bold {{ $growthDirection == 'up' ? 'text-success' : 'text-danger' }}">
+                                        <i
+                                            class="bi bi-arrow-{{ $growthDirection }}"></i>{{ number_format(abs($growthPercentage), 1) }}%
                                     </h5>
                                 </div>
                             </div>
@@ -247,12 +331,17 @@
             </div>
         </div>
 
+        <!-- Enrollment Trends Chart -->
         <div class="row g-4 mb-4">
             <div class="col-xl-12">
-                <div class="card border-0 shadow-sm">
-                    <div class="card-header bg-white border-0 py-3">
-                        <h5 class="mb-0 fw-bold">Enrollment Trends</h5>
-                        <small class="text-muted">Last 6 months (monthly) + {{ date('F Y') }} (daily)</small>
+                <div class="card border-0 shadow-sm"
+                    style="border-radius: 15px; overflow: hidden; animation: float 3s ease-in-out infinite;">
+                    <div class="card-header text-white py-3"
+                        style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border: none;">
+                        <h5 class="mb-0 fw-bold">
+                            <i class="bi bi-graph-up me-2"></i>Enrollment Trends
+                        </h5>
+                        <small style="opacity: 0.85;">Last 6 months (monthly) + {{ date('F Y') }} (daily)</small>
                     </div>
                     <div class="card-body">
                         <canvas id="enrollmentChart" height="80"></canvas>
@@ -261,17 +350,19 @@
             </div>
         </div>
 
+        <!-- Recent Enrollments and Popular Courses -->
         <div class="row g-4">
             <!-- Recent Enrollments -->
             <div class="col-xl-6">
-                <div class="card border-0 shadow-sm h-100">
-                    <div class="card-header bg-gradient text-white py-3 d-flex justify-content-between align-items-center"
-                        style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                <div class="card border-0 shadow-sm h-100"
+                    style="border-radius: 15px; overflow: hidden; animation: float 3s ease-in-out infinite;">
+                    <div class="card-header text-white py-3 d-flex justify-content-between align-items-center"
+                        style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); border: none;">
                         <div>
                             <h5 class="mb-0 fw-bold">
                                 <i class="bi bi-clock-history me-2"></i>Recent Enrollments
                             </h5>
-                            <small class="opacity-75">Latest student enrollments</small>
+                            <small style="opacity: 0.85;">Latest student enrollments</small>
                         </div>
                         <a href="{{ route('admin.enrollments.index') }}" class="btn btn-sm btn-light">
                             <i class="bi bi-arrow-right"></i> View All
@@ -280,17 +371,17 @@
                     <div class="card-body p-0">
                         <div class="list-group list-group-flush">
                             @forelse($recentEnrollments as $enrollment)
-                                <div class="list-group-item border-0 py-3">
+                                <div class="list-group-item border-0 py-3 enrollment-item">
                                     <div class="d-flex align-items-start">
                                         <!-- Student Avatar -->
                                         <div class="flex-shrink-0">
                                             @if($enrollment->student && $enrollment->student->image)
                                                 <img src="{{ asset('uploads/students/' . $enrollment->student->image) }}"
                                                     alt="{{ $enrollment->student->name }}" class="rounded-circle"
-                                                    style="width: 50px; height: 50px; object-fit: cover; border: 3px solid #f0f0f0;">
+                                                    style="width: 50px; height: 50px; object-fit: cover; border: 3px solid #43e97b;">
                                             @else
                                                 <div class="rounded-circle d-flex align-items-center justify-content-center"
-                                                    style="width: 50px; height: 50px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border: 3px solid #f0f0f0;">
+                                                    style="width: 50px; height: 50px; background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); border: 3px solid #f0f0f0;">
                                                     <span class="text-white fw-bold">
                                                         {{ $enrollment->student ? strtoupper(substr($enrollment->student->name, 0, 2)) : '?' }}
                                                     </span>
@@ -324,7 +415,7 @@
                                 </div>
                             @empty
                                 <div class="text-center py-5">
-                                    <i class="bi bi-inbox text-muted" style="font-size: 3rem;"></i>
+                                    <i class="bi bi-inbox text-muted" style="font-size: 3rem; opacity: 0.3;"></i>
                                     <p class="text-muted mt-3 mb-0">No enrollments found</p>
                                 </div>
                             @endforelse
@@ -342,14 +433,15 @@
 
             <!-- Popular Courses -->
             <div class="col-xl-6">
-                <div class="card border-0 shadow-sm h-100">
-                    <div class="card-header bg-gradient text-white py-3 d-flex justify-content-between align-items-center"
-                        style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                <div class="card border-0 shadow-sm h-100"
+                    style="border-radius: 15px; overflow: hidden; animation: float 3s ease-in-out infinite 0.5s;">
+                    <div class="card-header text-white py-3 d-flex justify-content-between align-items-center"
+                        style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); border: none;">
                         <div>
                             <h5 class="mb-0 fw-bold">
                                 <i class="bi bi-trophy-fill me-2"></i>Popular Courses
                             </h5>
-                            <small class="opacity-75">Top courses by enrollment</small>
+                            <small style="opacity: 0.85;">Top courses by enrollment</small>
                         </div>
                         <a href="{{ route('admin.courses.index') }}" class="btn btn-sm btn-light">
                             <i class="bi bi-arrow-right"></i> View All
@@ -357,7 +449,7 @@
                     </div>
                     <div class="card-body">
                         @forelse($popularCourses as $index => $course)
-                            <div class="mb-4 {{ $loop->last ? 'mb-0' : '' }}">
+                            <div class="mb-4 {{ $loop->last ? 'mb-0' : '' }} course-item">
                                 <div class="d-flex align-items-center mb-2">
                                     <!-- Rank Badge -->
                                     <div class="flex-shrink-0 me-3">
@@ -422,9 +514,10 @@
                                                 ];
                                                 $color = $colors[$index % count($colors)];
                                             @endphp
-                                            <div class="progress" style="height: 8px; background-color: #f0f0f0;">
+                                            <div class="progress"
+                                                style="height: 8px; background-color: #f0f0f0; border-radius: 10px;">
                                                 <div class="progress-bar" role="progressbar"
-                                                    style="width: {{ $percentage }}%; background: linear-gradient(90deg, {{ $color['from'] }} 0%, {{ $color['to'] }} 100%);"
+                                                    style="width: {{ $percentage }}%; background: linear-gradient(90deg, {{ $color['from'] }} 0%, {{ $color['to'] }} 100%); border-radius: 10px;"
                                                     aria-valuenow="{{ $percentage }}" aria-valuemin="0" aria-valuemax="100">
                                                 </div>
                                             </div>
@@ -434,7 +527,7 @@
                             </div>
                         @empty
                             <div class="text-center py-5">
-                                <i class="bi bi-book text-muted" style="font-size: 3rem;"></i>
+                                <i class="bi bi-book text-muted" style="font-size: 3rem; opacity: 0.3;"></i>
                                 <p class="text-muted mt-3 mb-0">No courses found</p>
                             </div>
                         @endforelse
@@ -461,21 +554,19 @@
                 datasets: [{
                     label: 'Enrollments',
                     data: {!! json_encode($monthCounts) !!},
-                    borderColor: 'rgb(13, 110, 253)',
-                    backgroundColor: 'rgba(13, 110, 253, 0.1)',
+                    borderColor: 'rgb(102, 126, 234)',
+                    backgroundColor: 'rgba(102, 126, 234, 0.1)',
                     tension: 0.3,
                     fill: true,
                     pointRadius: 3,
                     pointHoverRadius: 6,
-                    pointBackgroundColor: 'rgb(13, 110, 253)',
+                    pointBackgroundColor: 'rgb(102, 126, 234)',
                     pointBorderColor: '#fff',
                     pointBorderWidth: 2,
                     segment: {
                         borderDash: ctx => {
-                            // Add visual separation between monthly and daily data
                             const labels = {!! json_encode($monthLabels) !!};
                             const currentIndex = ctx.p0DataIndex;
-                            // If transitioning from month format to day format, use dashed line
                             if (currentIndex > 0 && labels[currentIndex - 1].includes(' 2') && labels[currentIndex].includes(' ')) {
                                 const prevHasYear = /\d{4}/.test(labels[currentIndex - 1]);
                                 const currIsDay = /\d{1,2}$/.test(labels[currentIndex]);
@@ -538,48 +629,6 @@
     </script>
 
     <style>
-        /* Global Card Animations */
-        .card {
-            transition: all 0.3s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15) !important;
-        }
-
-        /* Stats Cards Special Effects */
-        .stats-card {
-            position: relative;
-            overflow: hidden;
-        }
-
-        .stats-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.17), transparent);
-            transform: rotate(45deg);
-            transition: all 0.5s ease;
-        }
-
-        .stats-card:hover::before {
-            animation: shimmer 2s infinite;
-        }
-
-        @keyframes shimmer {
-            0% {
-                transform: translateX(-100%) rotate(45deg);
-            }
-
-            100% {
-                transform: translateX(100%) rotate(45deg);
-            }
-        }
-
         /* Icon Box Animation */
         .icon-box {
             transition: all 0.3s ease;
@@ -589,64 +638,23 @@
             transform: scale(1.1) rotate(5deg);
         }
 
-        /* Revenue Cards Pulse Effect */
-        .revenue-card {
-            position: relative;
-            overflow: hidden;
-        }
-
-        .revenue-card::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.06);
-            transform: translate(-50%, -50%);
-            transition: width 0.6s, height 0.6s;
-        }
-
-        .revenue-card:hover::after {
-            width: 300px;
-            height: 300px;
-        }
-
-        /* Header Gradient Text */
-        .gradient-text {
-            background: linear-gradient(135deg, #2245e0ff 0%, #9a7ab9ff 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
         /* List Group Items Hover */
-        .list-group-item {
-            transition: all 0.2s ease;
+        .enrollment-item {
+            transition: all 0.3s ease;
         }
 
-        .list-group-item:hover {
-            background-color: #5c86b1ff;
+        .enrollment-item:hover {
+            background-color: rgba(67, 233, 123, 0.05);
             transform: translateX(5px);
         }
 
-        /* Gradient Headers */
-        .bg-gradient {
-            position: relative;
-            overflow: hidden;
+        /* Course Item Hover */
+        .course-item {
+            transition: all 0.3s ease;
         }
 
-        .bg-gradient::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -50%;
-            bottom: -50%;
-            left: -50%;
-            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-            transform: rotate(45deg);
-            animation: shimmer 3s infinite;
+        .course-item:hover {
+            transform: translateX(5px);
         }
 
         /* Progress Bar Animation */
@@ -670,7 +678,7 @@
             transform: scale(1.05);
         }
 
-        /* Rank Badge Glow Effect */
+        /* Rank Badge Styling */
         .badge.rounded-circle {
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
             font-weight: bold;
@@ -679,19 +687,13 @@
             justify-content: center;
         }
 
-        /* Empty State Icons */
-        .bi-inbox,
-        .bi-book {
-            opacity: 0.3;
-        }
-
         /* Card Footer Links */
         .card-footer a {
             transition: all 0.2s ease;
         }
 
         .card-footer a:hover {
-            color: #0d6efd !important;
+            color: #667eea !important;
             transform: translateX(5px);
             display: inline-block;
         }
@@ -701,9 +703,9 @@
             transition: all 0.3s ease;
         }
 
-        .list-group-item:hover .rounded-circle {
+        .enrollment-item:hover .rounded-circle {
             transform: scale(1.1);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 5px 15px rgba(67, 233, 123, 0.4);
         }
 
         /* Number Counter Animation */
@@ -719,8 +721,7 @@
             }
         }
 
-        .stats-card h2,
-        .revenue-card h1 {
+        .stats-card h2 {
             animation: countUp 0.6s ease-out;
         }
 
@@ -731,11 +732,10 @@
 
         .btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
 
         /* Floating Animation for Icons */
-        @keyframes float {
+        @keyframes floatIcon {
 
             0%,
             100% {
@@ -747,25 +747,20 @@
             }
         }
 
-        .stats-card:hover i {
-            animation: float 2s ease-in-out infinite;
+        .stats-card:hover i.bi-people-fill,
+        .stats-card:hover i.bi-person-badge-fill,
+        .stats-card:hover i.bi-book-fill,
+        .stats-card:hover i.bi-clipboard-check-fill {
+            animation: floatIcon 2s ease-in-out infinite;
         }
 
-        /* Border Gradient Animation */
-        .border-top {
-            animation: borderGlow 2s ease-in-out infinite;
+        /* Card Hover Effect */
+        .card {
+            transition: all 0.3s ease;
         }
 
-        @keyframes borderGlow {
-
-            0%,
-            100% {
-                opacity: 0.25;
-            }
-
-            50% {
-                opacity: 0.5;
-            }
+        .card:hover {
+            transform: translateY(-3px);
         }
     </style>
 @endsection
