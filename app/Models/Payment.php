@@ -10,7 +10,7 @@ class Payment extends Model
     use HasFactory;
 
     protected $fillable = [
-        'student_id', 'amount', 'method', 'txnid', 'status'
+        'student_id', 'method', 'txnid', 'status'
     ];
 
     public function student()
