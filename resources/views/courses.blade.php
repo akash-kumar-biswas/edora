@@ -68,7 +68,7 @@
                             @if($course->image)
                                 <img src="{{ asset('storage/' . $course->image) }}" class="card-img-top" alt="{{ $course->title }}">
                             @else
-                                <img src="{{ asset('images/default-course.jpg') }}" class="card-img-top" alt="Default Course">
+                                <img src="{{ asset('images/pic1.jpg') }}" class="card-img-top" alt="Default Course">
                             @endif
 
                             <div class="card-body d-flex flex-column">
