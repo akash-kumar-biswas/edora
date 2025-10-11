@@ -6,6 +6,7 @@ use App\Http\Controllers\Student\RegisterController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\StudentController;
 
 Route::get('/', function () {
     return view('home');
@@ -32,6 +33,13 @@ Route::prefix('student')->name('student.')->group(function () {
         Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
         Route::post('login', [LoginController::class, 'login']);
     });
+
+    // Watch a course
+// Route::middleware(['auth'])->group(function () {
+//     Route::get('/student/course/{course}', [StudentController::class, 'watchCourse'])
+//         ->name('student.course.watch');
+// });
+
 
     // Authenticated student routes
     Route::middleware('auth:student')->group(function () {
@@ -89,6 +97,10 @@ Route::post('/instructor/register', [InstructorAuthController::class, 'register'
 
 // Instructor Dashboard
 Route::get('/instructor/dashboard', [InstructorController::class, 'dashboard'])->name('instructor.dashboard');
+Route::get('/instructor/instructors', [InstructorController::class, 'instructorsList'])
+    ->name('instructor.instructors');
+    Route::get('/instructor/enrollments', [InstructorController::class, 'enrollments'])
+     ->name('instructor.enrollments');
 
 // ---------------------------------------------------------------------------------------------------------------
 

@@ -18,6 +18,7 @@ class Course extends Model
         'price',
         'difficulty',
         'image',
+        'content_url',
         'status',
     ];
 

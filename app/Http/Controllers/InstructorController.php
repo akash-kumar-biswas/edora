@@ -16,6 +16,43 @@ class InstructorController extends Controller
         return view('admin.instructors.index', compact('instructors'));
     }
 
+    public function instructorsList()
+{
+    // Optional: Fetch instructors, or only display logged-in instructor’s name.
+    $instructors = Instructor::all();
+    $instructorName = session('instructor_name');
+
+    return view('instructor.instructors', compact('instructors', 'instructorName'));
+}
+
+public function enrollments()
+{
+    // Check if instructor is logged in
+    if (!session('instructor_logged_in')) {
+        return redirect()->route('instructor.login')->with('error', 'Please login first.');
+    }
+
+    // Get the logged-in instructor using email from session
+    $instructor = \App\Models\Instructor::where('email', session('instructor_email'))->first();
+
+    if (!$instructor) {
+        // If somehow instructor is missing in DB
+        session()->forget(['instructor_logged_in', 'instructor_name', 'instructor_email']);
+        return redirect()->route('instructor.login')->with('error', 'Instructor not found. Please login again.');
+    }
+
+    // Get all enrollments for courses this instructor teaches
+    $enrollments = \App\Models\Enrollment::whereHas('course', function($q) use ($instructor) {
+        $q->where('instructor_id', $instructor->id);
+    })->with(['student', 'course'])->get();
+
+    return view('instructor.enrollments.index', [
+        'enrollments' => $enrollments,
+        'instructorName' => $instructor->name
+    ]);
+}
+
+
     // Show form to create a new instructor
     public function create()
     {

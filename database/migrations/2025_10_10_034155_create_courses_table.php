@@ -21,6 +21,7 @@ return new class extends Migration
             $table->decimal('price', 10, 2)->default(0.00);
             $table->enum('difficulty', ['beginner', 'intermediate', 'advanced'])->nullable();
             $table->string('image')->nullable();
+            $table->text('content_url')->nullable();
             $table->integer('status')->default(0)->comment('0 pending, 1 inactive, 2 active');
             $table->timestamps();
             // Foreign key constraints

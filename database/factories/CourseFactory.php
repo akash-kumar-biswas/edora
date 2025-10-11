@@ -21,6 +21,7 @@ class CourseFactory extends Factory
             'price' => $this->faker->randomFloat(2, 0, 100),
             'difficulty' => $this->faker->randomElement(['beginner', 'intermediate', 'advanced']),
             'image' => null,
+            'content_url' => null,
             'status' => $this->faker->randomElement([0,1,2]),
         ];
     }
