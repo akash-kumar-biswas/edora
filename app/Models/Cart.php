@@ -17,11 +17,11 @@ class Cart extends Model
     // Relations
     public function student()
     {
-        return $this->belongsTo(Student::class);
+        return $this->belongsTo(\App\Models\Student::class);
     }
 
     public function course()
     {
-        return $this->belongsTo(Course::class);
+        return $this->belongsTo(\App\Models\Course::class);
     }
 }

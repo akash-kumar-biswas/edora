@@ -9,6 +9,11 @@ use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('student.auth');
+    }
+
     // Show all courses in student's cart
     public function index()
     {
@@ -24,6 +29,12 @@ class CartController extends Controller
     public function add(Request $request, $courseId)
     {
         $studentId = Auth::guard('student')->id();
+
+        // Check if course exists
+        $course = Course::find($courseId);
+        if (!$course) {
+            return redirect()->back()->with('error', 'Course not found!');
+        }
 
         // Prevent duplicate
         $exists = Cart::where('student_id', $studentId)

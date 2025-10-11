@@ -6,15 +6,21 @@ use Illuminate\Http\Request;
 use App\Models\Cart;
 use App\Models\Payment;
 use App\Models\PaymentItem;
+use App\Models\Enrollment;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class PaymentController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('student.auth');
+    }
+
     // Show payment history for logged-in student
     public function index()
     {
-        $studentId = Auth::id();
+        $studentId = Auth::guard('student')->id();
 
         $payments = Payment::with('items.course')
             ->where('student_id', $studentId)
@@ -27,12 +33,12 @@ class PaymentController extends Controller
     // Checkout all courses in cart
     public function checkout(Request $request)
     {
-        $studentId = Auth::id();
+        $studentId = Auth::guard('student')->id();
 
         $cartItems = Cart::with('course')->where('student_id', $studentId)->get();
 
         if ($cartItems->isEmpty()) {
-            return redirect()->back()->with('error', 'Your cart is empty.');
+            return redirect()->route('cart.index')->with('error', 'Your cart is empty.');
         }
 
         // Start transaction
@@ -45,9 +51,10 @@ class PaymentController extends Controller
                 'student_id' => $studentId,
                 'method' => 'manual',
                 'status' => 1, // completed
+                'total_amount' => $totalAmount,
             ]);
 
-            // Create PaymentItems for each course
+            // Create PaymentItems for each course and enrollments
             foreach ($cartItems as $item) {
                 PaymentItem::create([
                     'payment_id' => $payment->id,
@@ -55,14 +62,17 @@ class PaymentController extends Controller
                     'price' => $item->course->price,
                 ]);
 
-                // Optional: enroll student automatically
-                $item->course->students()->attach($studentId);
+                // Create enrollment for the student
+                Enrollment::firstOrCreate([
+                    'student_id' => $studentId,
+                    'course_id' => $item->course->id,
+                ]);
             }
 
             // Clear cart
             Cart::where('student_id', $studentId)->delete();
         });
 
-        return redirect()->route('payments.index')->with('success', 'Checkout completed successfully!');
+        return redirect()->route('student.dashboard')->with('success', 'Checkout completed successfully! You have enrolled in the courses.');
     }
 }
