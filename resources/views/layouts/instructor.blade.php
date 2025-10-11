@@ -74,7 +74,7 @@
                     </a>
                 </li>
                 <li class="nav-item mb-2">
-                    <a href="#" class="nav-link {{ Request::is('instructor/courses*') ? 'active' : '' }}">
+                    <a href="{{ route('instructor.courses') }}" class="nav-link {{ Request::is('instructor/courses*') ? 'active' : '' }}">
                         <i class="bi bi-book me-2"></i> My Courses
                     </a>
                 </li>

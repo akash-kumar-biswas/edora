@@ -104,6 +104,14 @@ Route::middleware('instructor.auth')->group(function () {
     Route::get('/instructor/profile', [InstructorController::class, 'profile'])->name('instructor.profile');
     Route::get('/instructor/profile/edit', [InstructorController::class, 'editProfile'])->name('instructor.profile.edit');
     Route::put('/instructor/profile/update', [InstructorController::class, 'updateProfile'])->name('instructor.profile.update');
+
+    // Course management routes
+    Route::get('/instructor/courses', [InstructorController::class, 'courses'])->name('instructor.courses');
+    Route::get('/instructor/courses/create', [InstructorController::class, 'createCourse'])->name('instructor.courses.create');
+    Route::post('/instructor/courses', [InstructorController::class, 'storeCourse'])->name('instructor.courses.store');
+    Route::get('/instructor/courses/{id}/edit', [InstructorController::class, 'editCourse'])->name('instructor.courses.edit');
+    Route::put('/instructor/courses/{id}', [InstructorController::class, 'updateCourse'])->name('instructor.courses.update');
+    Route::delete('/instructor/courses/{id}', [InstructorController::class, 'destroyCourse'])->name('instructor.courses.destroy');
 });
 
 // ---------------------------------------------------------------------------------------------------------------

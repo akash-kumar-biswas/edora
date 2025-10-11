@@ -226,4 +226,134 @@ class InstructorController extends Controller
 
         return redirect()->route('instructor.profile')->with('success', 'Profile updated successfully!');
     }
+
+    // ========== COURSE MANAGEMENT ==========
+
+    // Show all courses for the logged-in instructor
+    public function courses()
+    {
+        $courses = Course::where('instructor_id', session('instructor_id'))
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return view('instructor.courses.index', compact('courses'));
+    }
+
+    // Show form to create a new course
+    public function createCourse()
+    {
+        return view('instructor.courses.create');
+    }
+
+    // Store a new course
+    public function storeCourse(Request $request)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'type' => 'required|in:free,paid',
+            'price' => 'required_if:type,paid|nullable|numeric|min:0',
+            'duration' => 'nullable|string|max:100',
+            'difficulty' => 'required|in:beginner,intermediate,advanced',
+            'image' => 'nullable|image|mimes:jpg,png,jpeg,gif|max:2048',
+            'content_url' => 'nullable|url|max:500',
+            'status' => 'required|in:0,1,2',
+        ]);
+
+        $data = $request->only(['title', 'description', 'type', 'duration', 'difficulty', 'content_url', 'status']);
+        $data['instructor_id'] = session('instructor_id');
+
+        // Set price based on type
+        if ($request->type === 'free') {
+            $data['price'] = 0;
+        } else {
+            $data['price'] = $request->price;
+        }
+
+        // Handle image upload
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = time() . '_' . $image->getClientOriginalName();
+            $image->move(public_path('uploads/courses'), $imageName);
+            $data['image'] = $imageName;
+        }
+
+        Course::create($data);
+
+        return redirect()->route('instructor.courses')->with('success', 'Course created successfully!');
+    }
+
+    // Show form to edit a course
+    public function editCourse($id)
+    {
+        $course = Course::where('id', $id)
+            ->where('instructor_id', session('instructor_id'))
+            ->firstOrFail();
+
+        return view('instructor.courses.edit', compact('course'));
+    }
+
+    // Update a course
+    public function updateCourse(Request $request, $id)
+    {
+        $course = Course::where('id', $id)
+            ->where('instructor_id', session('instructor_id'))
+            ->firstOrFail();
+
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'type' => 'required|in:free,paid',
+            'price' => 'required_if:type,paid|nullable|numeric|min:0',
+            'duration' => 'nullable|string|max:100',
+            'difficulty' => 'required|in:beginner,intermediate,advanced',
+            'image' => 'nullable|image|mimes:jpg,png,jpeg,gif|max:2048',
+            'content_url' => 'nullable|url|max:500',
+            'status' => 'required|in:0,1,2',
+        ]);
+
+        $data = $request->only(['title', 'description', 'type', 'duration', 'difficulty', 'content_url', 'status']);
+
+        // Set price based on type
+        if ($request->type === 'free') {
+            $data['price'] = 0;
+        } else {
+            $data['price'] = $request->price;
+        }
+
+        // Handle image upload
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = time() . '_' . $image->getClientOriginalName();
+            $image->move(public_path('uploads/courses'), $imageName);
+
+            // Delete old image if exists
+            if ($course->image && file_exists(public_path('uploads/courses/' . $course->image))) {
+                unlink(public_path('uploads/courses/' . $course->image));
+            }
+
+            $data['image'] = $imageName;
+        }
+
+        $course->update($data);
+
+        return redirect()->route('instructor.courses')->with('success', 'Course updated successfully!');
+    }
+
+    // Delete a course
+    public function destroyCourse($id)
+    {
+        $course = Course::where('id', $id)
+            ->where('instructor_id', session('instructor_id'))
+            ->firstOrFail();
+
+        // Delete image if exists
+        if ($course->image && file_exists(public_path('uploads/courses/' . $course->image))) {
+            unlink(public_path('uploads/courses/' . $course->image));
+        }
+
+        $course->delete();
+
+        return redirect()->route('instructor.courses')->with('success', 'Course deleted successfully!');
+    }
 }
