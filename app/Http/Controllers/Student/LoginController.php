@@ -53,7 +53,28 @@ class LoginController extends Controller
         // Get completed courses count (courses with 100% progress)
         $completedCount = 0; // Replace with actual completed course logic
 
-        return view('student.dashboard', compact('student', 'allCourses', 'enrolledCount', 'completedCount'));
+        // Get purchase history - fetch payment_items grouped by payment_id
+        $purchaseHistory = \App\Models\PaymentItem::with(['payment.student', 'course.instructor'])
+            ->whereHas('payment', function ($query) use ($student) {
+                $query->where('student_id', $student->id);
+            })
+            ->get()
+            ->groupBy('payment_id')
+            ->map(function ($items) {
+                return (object) [
+                    'payment_id' => $items->first()->payment_id,
+                    'payment' => $items->first()->payment,
+                    'items' => $items,
+                    'total_price' => $items->sum('price'),
+                    'total_courses' => $items->count(),
+                    'created_at' => $items->first()->payment->created_at,
+                    'txnid' => $items->first()->payment->txnid,
+                ];
+            })
+            ->sortByDesc('created_at')
+            ->values();
+
+        return view('student.dashboard', compact('student', 'allCourses', 'enrolledCount', 'completedCount', 'purchaseHistory'));
     }
 
     public function profile()

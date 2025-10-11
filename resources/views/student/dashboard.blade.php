@@ -284,6 +284,148 @@
             font-size: 1rem;
         }
 
+        /* Purchase History Styles */
+        .purchase-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            position: relative;
+            display: flex;
+            gap: 30px;
+            align-items: flex-start;
+        }
+
+        .purchase-card:hover {
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.12);
+        }
+
+        .purchase-left {
+            display: flex;
+            gap: 20px;
+            flex: 1;
+            align-items: flex-start;
+        }
+
+        .purchase-course-image {
+            width: 150px;
+            height: 100px;
+            border-radius: 8px;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+
+        .purchase-course-info {
+            flex: 1;
+        }
+
+        .purchase-course-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+
+        .purchase-instructor {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            margin-bottom: 0;
+        }
+
+        .purchase-instructor strong {
+            color: #34495e;
+        }
+
+        .purchase-price-section {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 8px;
+            min-width: 140px;
+        }
+
+        .purchase-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #2c3e50;
+        }
+
+        .purchase-divider {
+            width: 2px;
+            background: #ecf0f1;
+            align-self: stretch;
+        }
+
+        .purchase-right {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            min-width: 280px;
+        }
+
+        .purchase-date {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .purchase-detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .purchase-detail-row:last-child {
+            border-bottom: none;
+        }
+
+        .purchase-detail-label {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+            font-weight: 500;
+        }
+
+        .purchase-detail-value {
+            font-size: 0.9rem;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+
+        .purchase-txnid {
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            color: #4facfe;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 30px;
+            height: 30px;
+            border: none;
+            background: transparent;
+            color: #95a5a6;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+            padding: 0;
+        }
+
+        .close-btn:hover {
+            color: #e74c3c;
+            transform: rotate(90deg);
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .courses-grid {
@@ -309,6 +451,38 @@
             .nav-tabs .nav-link {
                 white-space: nowrap;
                 padding: 15px 20px;
+            }
+
+            /* Purchase History Responsive */
+            .purchase-card {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .purchase-left {
+                flex-direction: column;
+            }
+
+            .purchase-course-image {
+                width: 100%;
+                height: 180px;
+            }
+
+            .purchase-price-section {
+                align-items: flex-start;
+            }
+
+            .purchase-divider {
+                display: none;
+            }
+
+            .purchase-right {
+                width: 100%;
+            }
+
+            .close-btn {
+                top: 10px;
+                right: 10px;
             }
         }
     </style>
@@ -360,20 +534,8 @@
         <div class="dashboard-nav">
             <ul class="nav nav-tabs" id="dashboardTabs" role="tablist">
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="dashboard-tab" data-bs-toggle="tab" data-bs-target="#dashboard"
-                        type="button" role="tab">Dashboard</button>
-                </li>
-                <li class="nav-item" role="presentation">
                     <button class="nav-link active" id="all-courses-tab" data-bs-toggle="tab"
                         data-bs-target="#all-courses" type="button" role="tab">All Courses</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="active-courses-tab" data-bs-toggle="tab"
-                        data-bs-target="#active-courses" type="button" role="tab">Active Courses</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="completed-courses-tab" data-bs-toggle="tab"
-                        data-bs-target="#completed-courses" type="button" role="tab">Completed Courses</button>
                 </li>
                 <li class="nav-item" role="presentation">
                     <button class="nav-link" id="purchase-history-tab" data-bs-toggle="tab"
@@ -465,11 +627,68 @@
             </div>
 
             <div class="tab-pane fade" id="purchase-history" role="tabpanel">
-                <div class="empty-state">
-                    <i class="bi bi-receipt"></i>
-                    <h3>Purchase History</h3>
-                    <p>Purchase history content coming soon...</p>
-                </div>
+                @if(isset($purchaseHistory) && $purchaseHistory->count() > 0)
+                    @foreach($purchaseHistory as $purchaseGroup)
+                        <div class="purchase-card">
+                            <button class="close-btn" onclick="this.parentElement.remove()">×</button>
+
+                            <!-- Left Section: Course Info -->
+                            <div class="purchase-left">
+                                @php
+                                    $firstItem = $purchaseGroup->items->first();
+                                @endphp
+                                <img src="{{ $firstItem && $firstItem->course && $firstItem->course->image ? asset('uploads/courses/' . $firstItem->course->image) : 'https://via.placeholder.com/150x100/667eea/ffffff?text=Course' }}"
+                                    alt="{{ $firstItem && $firstItem->course ? $firstItem->course->title : 'Course' }}"
+                                    class="purchase-course-image">
+
+                                <div class="purchase-course-info">
+                                    <h3 class="purchase-course-title">
+                                        {{ $firstItem && $firstItem->course ? $firstItem->course->title : 'Course Title' }}
+                                    </h3>
+                                    <p class="purchase-instructor">
+                                        By
+                                        <strong>{{ $firstItem && $firstItem->course && $firstItem->course->instructor ? $firstItem->course->instructor->name : 'Instructor' }}</strong>
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- Price Section -->
+                            <div class="purchase-price-section">
+                                <div class="purchase-price">৳{{ number_format($purchaseGroup->total_price, 2) }}</div>
+                            </div>
+
+                            <!-- Divider -->
+                            <div class="purchase-divider"></div>
+
+                            <!-- Right Section: Purchase Details -->
+                            <div class="purchase-right">
+                                <div class="purchase-date">{{ $purchaseGroup->created_at->format('Y-m-d H:i:s') }}</div>
+
+                                <div class="purchase-detail-row">
+                                    <span class="purchase-detail-label">Total</span>
+                                    <span class="purchase-detail-value">{{ number_format($purchaseGroup->total_price) }}</span>
+                                </div>
+
+                                <div class="purchase-detail-row">
+                                    <span class="purchase-detail-label">Total Courses</span>
+                                    <span class="purchase-detail-value">{{ $purchaseGroup->total_courses }}</span>
+                                </div>
+
+                                <div class="purchase-detail-row">
+                                    <span class="purchase-detail-label">Payment Type</span>
+                                    <span
+                                        class="purchase-detail-value purchase-txnid">{{ $purchaseGroup->txnid ?? 'N/A' }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                @else
+                    <div class="empty-state">
+                        <i class="bi bi-receipt"></i>
+                        <h3>No Purchase History</h3>
+                        <p>You haven't made any purchases yet.</p>
+                    </div>
+                @endif
             </div>
 
             <div class="tab-pane fade" id="profile" role="tabpanel">

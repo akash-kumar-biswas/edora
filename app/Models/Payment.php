@@ -10,7 +10,11 @@ class Payment extends Model
     use HasFactory;
 
     protected $fillable = [
-        'student_id', 'method', 'txnid', 'status'
+        'student_id',
+        'method',
+        'txnid',
+        'status',
+        'amount'
     ];
 
     public function student()
@@ -21,5 +25,11 @@ class Payment extends Model
     public function items()
     {
         return $this->hasMany(PaymentItem::class);
+    }
+
+    // Calculate total amount from payment items
+    public function getTotalAmountAttribute()
+    {
+        return $this->items()->sum('price');
     }
 }
