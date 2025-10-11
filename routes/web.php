@@ -77,6 +77,7 @@ Route::get('/admin/test', function () {
 // Admin Pages (protected by admin.auth middleware)
 Route::middleware('admin.auth')->group(function () {
     Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+    Route::get('/admin/export-report', [AdminController::class, 'exportReport'])->name('admin.export');
 });
 
 Route::prefix('admin')->name('admin.')->middleware('admin.auth')->group(function () {
