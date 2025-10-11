@@ -30,4 +30,14 @@ class Student extends Authenticatable
         'password',
         'remember_token',
     ];
+
+    public function enrollments()
+    {
+        return $this->hasMany(Enrollment::class);
+    }
+
+    public function courses()
+    {
+        return $this->belongsToMany(Course::class, 'enrollments')->withTimestamps();
+    }
 }

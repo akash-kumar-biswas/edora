@@ -43,7 +43,6 @@ class PaymentController extends Controller
             // Create Payment record
             $payment = Payment::create([
                 'student_id' => $studentId,
-                'amount' => $totalAmount,
                 'method' => 'manual',
                 'status' => 1, // completed
             ]);
