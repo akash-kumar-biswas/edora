@@ -380,6 +380,12 @@
         border-bottom: none;
     }
 
+    .purchase-detail-row:nth-child(odd) {
+        background: #f8f9fa;
+        padding: 8px 0;
+        border-radius: 4px;
+    }
+
     .purchase-detail-label {
         font-size: 0.9rem;
         color: #7f8c8d;
@@ -585,31 +591,6 @@
                     <p>You haven't enrolled in any courses yet. Start learning today!</p>
                 </div>
             @endif
-        </div>
-
-        <!-- Other Tabs (Placeholder for now) -->
-        <div class="tab-pane fade" id="dashboard" role="tabpanel">
-            <div class="empty-state">
-                <i class="bi bi-speedometer2"></i>
-                <h3>Dashboard Overview</h3>
-                <p>Dashboard content coming soon...</p>
-            </div>
-        </div>
-
-        <div class="tab-pane fade" id="active-courses" role="tabpanel">
-            <div class="empty-state">
-                <i class="bi bi-play-circle"></i>
-                <h3>Active Courses</h3>
-                <p>Active courses content coming soon...</p>
-            </div>
-        </div>
-
-        <div class="tab-pane fade" id="completed-courses" role="tabpanel">
-            <div class="empty-state">
-                <i class="bi bi-check-circle"></i>
-                <h3>Completed Courses</h3>
-                <p>Completed courses content coming soon...</p>
-            </div>
         </div>
 
         <div class="tab-pane fade" id="purchase-history" role="tabpanel">
