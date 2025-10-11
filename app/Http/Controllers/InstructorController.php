@@ -17,40 +17,40 @@ class InstructorController extends Controller
     }
 
     public function instructorsList()
-{
-    // Optional: Fetch instructors, or only display logged-in instructor’s name.
-    $instructors = Instructor::all();
-    $instructorName = session('instructor_name');
+    {
+        // Optional: Fetch instructors, or only display logged-in instructor’s name.
+        $instructors = Instructor::all();
+        $instructorName = session('instructor_name');
 
-    return view('instructor.instructors', compact('instructors', 'instructorName'));
-}
-
-public function enrollments()
-{
-    // Check if instructor is logged in
-    if (!session('instructor_logged_in')) {
-        return redirect()->route('instructor.login')->with('error', 'Please login first.');
+        return view('instructor.instructors', compact('instructors', 'instructorName'));
     }
 
-    // Get the logged-in instructor using email from session
-    $instructor = \App\Models\Instructor::where('email', session('instructor_email'))->first();
+    public function enrollments()
+    {
+        // Check if instructor is logged in
+        if (!session('instructor_logged_in')) {
+            return redirect()->route('instructor.login')->with('error', 'Please login first.');
+        }
 
-    if (!$instructor) {
-        // If somehow instructor is missing in DB
-        session()->forget(['instructor_logged_in', 'instructor_name', 'instructor_email']);
-        return redirect()->route('instructor.login')->with('error', 'Instructor not found. Please login again.');
+        // Get the logged-in instructor using email from session
+        $instructor = \App\Models\Instructor::where('email', session('instructor_email'))->first();
+
+        if (!$instructor) {
+            // If somehow instructor is missing in DB
+            session()->forget(['instructor_logged_in', 'instructor_name', 'instructor_email']);
+            return redirect()->route('instructor.login')->with('error', 'Instructor not found. Please login again.');
+        }
+
+        // Get all enrollments for courses this instructor teaches
+        $enrollments = \App\Models\Enrollment::whereHas('course', function ($q) use ($instructor) {
+            $q->where('instructor_id', $instructor->id);
+        })->with(['student', 'course'])->get();
+
+        return view('instructor.enrollments.index', [
+            'enrollments' => $enrollments,
+            'instructorName' => $instructor->name
+        ]);
     }
-
-    // Get all enrollments for courses this instructor teaches
-    $enrollments = \App\Models\Enrollment::whereHas('course', function($q) use ($instructor) {
-        $q->where('instructor_id', $instructor->id);
-    })->with(['student', 'course'])->get();
-
-    return view('instructor.enrollments.index', [
-        'enrollments' => $enrollments,
-        'instructorName' => $instructor->name
-    ]);
-}
 
 
     // Show form to create a new instructor
@@ -75,7 +75,7 @@ public function enrollments()
         // Handle image upload
         if ($request->hasFile('image')) {
             $image = $request->file('image');
-            $imageName = time().'_'.$image->getClientOriginalName();
+            $imageName = time() . '_' . $image->getClientOriginalName();
             $image->move(public_path('uploads/instructors'), $imageName);
             $data['image'] = $imageName;
         }
@@ -104,7 +104,7 @@ public function enrollments()
     {
         $request->validate([
             'name' => 'required',
-            'email' => 'required|email|unique:instructors,email,'.$id,
+            'email' => 'required|email|unique:instructors,email,' . $id,
             'password' => 'nullable|min:6',
             'image' => 'nullable|image|mimes:jpg,png,jpeg,gif|max:2048',
         ]);
@@ -115,13 +115,13 @@ public function enrollments()
         // Handle image upload
         if ($request->hasFile('image')) {
             $image = $request->file('image');
-            $imageName = time().'_'.$image->getClientOriginalName();
+            $imageName = time() . '_' . $image->getClientOriginalName();
             $image->move(public_path('uploads/instructors'), $imageName);
             $data['image'] = $imageName;
 
             // Delete old image if exists
-            if ($instructor->image && file_exists(public_path('uploads/instructors/'.$instructor->image))) {
-                unlink(public_path('uploads/instructors/'.$instructor->image));
+            if ($instructor->image && file_exists(public_path('uploads/instructors/' . $instructor->image))) {
+                unlink(public_path('uploads/instructors/' . $instructor->image));
             }
         }
 
@@ -142,8 +142,8 @@ public function enrollments()
         $instructor = Instructor::findOrFail($id);
 
         // Delete image if exists
-        if ($instructor->image && file_exists(public_path('uploads/instructors/'.$instructor->image))) {
-            unlink(public_path('uploads/instructors/'.$instructor->image));
+        if ($instructor->image && file_exists(public_path('uploads/instructors/' . $instructor->image))) {
+            unlink(public_path('uploads/instructors/' . $instructor->image));
         }
 
         $instructor->delete();
@@ -166,5 +166,64 @@ public function enrollments()
             'instructor_name' => session('instructor_name'),
             'courses' => $courses
         ]);
+    }
+
+    // Show instructor profile
+    public function profile()
+    {
+        // Get the logged-in instructor
+        $instructor = Instructor::findOrFail(session('instructor_id'));
+        return view('instructor.profile', compact('instructor'));
+    }
+
+    // Show edit profile form
+    public function editProfile()
+    {
+        $instructor = Instructor::findOrFail(session('instructor_id'));
+        return view('instructor.edit-profile', compact('instructor'));
+    }
+
+    // Update instructor profile
+    public function updateProfile(Request $request)
+    {
+        $instructor = Instructor::findOrFail(session('instructor_id'));
+
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255|unique:instructors,email,' . $instructor->id,
+            'bio' => 'nullable|string|max:1000',
+            'password' => 'nullable|string|min:6|confirmed',
+            'image' => 'nullable|image|mimes:jpg,png,jpeg,gif|max:2048',
+        ]);
+
+        $instructor->name = $request->name;
+        $instructor->email = $request->email;
+        $instructor->bio = $request->bio;
+
+        // Handle image upload
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = time() . '_' . $image->getClientOriginalName();
+            $image->move(public_path('uploads/instructors'), $imageName);
+
+            // Delete old image if exists
+            if ($instructor->image && file_exists(public_path('uploads/instructors/' . $instructor->image))) {
+                unlink(public_path('uploads/instructors/' . $instructor->image));
+            }
+
+            $instructor->image = $imageName;
+        }
+
+        // Update password if provided
+        if ($request->filled('password')) {
+            $instructor->password = Hash::make($request->password);
+        }
+
+        $instructor->save();
+
+        // Update session data
+        session(['instructor_name' => $instructor->name]);
+
+        return redirect()->route('instructor.profile')->with('success', 'Profile updated successfully!');
     }
 }

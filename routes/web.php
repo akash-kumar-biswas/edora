@@ -87,20 +87,24 @@ Route::middleware('admin.auth')->group(function () {
 
 use App\Http\Controllers\InstructorAuthController;
 
-// Instructor Login & Signup
+// Instructor Login & Signup (Guest routes)
 Route::get('/instructor/login', [InstructorAuthController::class, 'showLoginForm'])->name('instructor.login');
 Route::post('/instructor/login', [InstructorAuthController::class, 'login'])->name('instructor.login.submit');
-Route::get('/instructor/logout', [InstructorAuthController::class, 'logout'])->name('instructor.logout');
-
 Route::get('/instructor/register', [InstructorAuthController::class, 'showRegisterForm'])->name('instructor.register');
 Route::post('/instructor/register', [InstructorAuthController::class, 'register'])->name('instructor.register.submit');
 
-// Instructor Dashboard
-Route::get('/instructor/dashboard', [InstructorController::class, 'dashboard'])->name('instructor.dashboard');
-Route::get('/instructor/instructors', [InstructorController::class, 'instructorsList'])
-    ->name('instructor.instructors');
-    Route::get('/instructor/enrollments', [InstructorController::class, 'enrollments'])
-     ->name('instructor.enrollments');
+// Instructor Protected Routes
+Route::middleware('instructor.auth')->group(function () {
+    Route::get('/instructor/logout', [InstructorAuthController::class, 'logout'])->name('instructor.logout');
+    Route::get('/instructor/dashboard', [InstructorController::class, 'dashboard'])->name('instructor.dashboard');
+    Route::get('/instructor/instructors', [InstructorController::class, 'instructorsList'])->name('instructor.instructors');
+    Route::get('/instructor/enrollments', [InstructorController::class, 'enrollments'])->name('instructor.enrollments');
+
+    // Profile routes
+    Route::get('/instructor/profile', [InstructorController::class, 'profile'])->name('instructor.profile');
+    Route::get('/instructor/profile/edit', [InstructorController::class, 'editProfile'])->name('instructor.profile.edit');
+    Route::put('/instructor/profile/update', [InstructorController::class, 'updateProfile'])->name('instructor.profile.update');
+});
 
 // ---------------------------------------------------------------------------------------------------------------
 

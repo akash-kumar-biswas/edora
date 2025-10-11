@@ -89,7 +89,7 @@
                     </a>
                 </li>
                 <li class="nav-item mb-2">
-                    <a href="#" class="nav-link {{ Request::is('instructor/profile*') ? 'active' : '' }}">
+                    <a href="{{ route('instructor.profile') }}" class="nav-link {{ Request::is('instructor/profile*') ? 'active' : '' }}">
                         <i class="bi bi-person-circle me-2"></i> Profile
                     </a>
                 </li>
