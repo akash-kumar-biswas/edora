@@ -3,11 +3,37 @@
 namespace App\Http\Controllers;
 
 use App\Models\Student;
+use App\Models\Enrollment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class StudentController extends Controller
 {
+    public function dashboard()
+    {
+        $student = Auth::guard('student')->user();
+
+        // Get all enrolled courses with instructor info
+        $allCourses = $student->courses()
+            ->with('instructor')
+            ->withPivot('created_at')
+            ->get();
+
+        // Calculate progress for each course (for now, using random percentage)
+        $allCourses->each(function ($course) {
+            $course->progress = rand(10, 95); // Replace with actual progress calculation
+        });
+
+        // Get enrolled courses count
+        $enrolledCount = $allCourses->count();
+
+        // Get completed courses count (courses with 100% progress)
+        $completedCount = 0; // Replace with actual completed course logic
+
+        return view('student.dashboard', compact('student', 'allCourses', 'enrolledCount', 'completedCount'));
+    }
+
     public function index()
     {
         return response()->json(Student::all());
