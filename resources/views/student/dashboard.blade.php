@@ -575,11 +575,9 @@
                                     </div>
                                 </div>
 
-                                <form action="{{ route('student.dashboard') }}" method="GET">
-                                    <button type="submit" class="watch-course-btn">
-                                        Watch Course
-                                    </button>
-                                </form>
+                                <a href="{{ route('student.courses.watch', $course->id) }}" class="watch-course-btn">
+                                    Watch Course
+                                </a>
                             </div>
                         </div>
                     @endforeach

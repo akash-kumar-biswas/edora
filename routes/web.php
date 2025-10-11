@@ -48,6 +48,7 @@ Route::prefix('student')->name('student.')->group(function () {
         Route::get('profile', [LoginController::class, 'profile'])->name('profile');
         Route::get('profile/edit', [LoginController::class, 'editProfile'])->name('profile.edit');
         Route::put('profile/update', [LoginController::class, 'updateProfile'])->name('profile.update');
+        Route::get('courses/{course}', [StudentController::class, 'watchCourse'])->name('courses.watch');
     });
 });
 
