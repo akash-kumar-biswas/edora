@@ -14,7 +14,6 @@ class PaymentFactory extends Factory
     {
         return [
             'student_id' => Student::factory(),
-            'amount' => $this->faker->randomFloat(2, 50, 500),
             'method' => 'manual',
             'txnid' => $this->faker->uuid(),
             'status' => 1,
