@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Student;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller
 {
@@ -79,7 +80,36 @@ class LoginController extends Controller
 
     public function profile()
     {
-        return view('student.profile'); // create this blade
+        $student = Auth::guard('student')->user();
+        return view('student.profile', compact('student'));
+    }
+
+    public function editProfile()
+    {
+        $student = Auth::guard('student')->user();
+        return view('student.edit-profile', compact('student'));
+    }
+
+    public function updateProfile(Request $request)
+    {
+        $student = Auth::guard('student')->user();
+
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255|unique:students,email,' . $student->id,
+            'password' => 'nullable|string|min:8|confirmed',
+        ]);
+
+        $student->name = $request->name;
+        $student->email = $request->email;
+
+        if ($request->filled('password')) {
+            $student->password = Hash::make($request->password);
+        }
+
+        $student->save();
+
+        return redirect()->route('student.profile')->with('success', 'Profile updated successfully!');
     }
 
     public function logout(Request $request)
