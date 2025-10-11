@@ -2,282 +2,266 @@
 
 @section('content')
     <style>
-        /* Gradient Header Animations */
-        @keyframes gradient-shift {
-            0% {
-                background-position: 0% 50%;
-            }
-
-            50% {
-                background-position: 100% 50%;
-            }
-
-            100% {
-                background-position: 0% 50%;
-            }
-        }
-
-        @keyframes shimmer {
-            0% {
-                opacity: 0.8;
-            }
-
-            50% {
-                opacity: 1;
-            }
-
-            100% {
-                opacity: 0.8;
-            }
-        }
-
-        @keyframes float {
-
-            0%,
-            100% {
-                transform: translateY(0px);
-            }
-
-            50% {
-                transform: translateY(-5px);
-            }
-        }
-
-        .gradient-header {
-            background: linear-gradient(-45deg, #667eea, #764ba2, #f093fb, #4facfe);
-            background-size: 400% 400%;
-            animation: gradient-shift 15s ease infinite;
-            padding: 2rem;
-            border-radius: 15px;
+        /* Clean, Professional Dashboard Design */
+        .dashboard-header {
+            background: #fff;
+            padding: 1.5rem 2rem;
+            border-radius: 8px;
             margin-bottom: 2rem;
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+            border-left: 4px solid #3b82f6;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
         }
 
-        .gradient-text {
-            background: linear-gradient(135deg, #ffffff, #f0f0f0);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            font-weight: 700;
-            font-size: 2.5rem;
-            margin: 0;
-            animation: shimmer 2s ease-in-out infinite;
-        }
-
-        .welcome-text {
-            color: rgba(255, 255, 255, 0.9);
-            margin: 0.5rem 0 0 0;
-            font-size: 1rem;
-        }
-
-        .btn-gradient-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border: none;
-            color: white;
-            padding: 0.6rem 1.5rem;
-            border-radius: 10px;
+        .dashboard-title {
+            color: #1e293b;
             font-weight: 600;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            font-size: 1.75rem;
+            margin: 0;
         }
 
-        .btn-gradient-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
-            color: white;
+        .dashboard-subtitle {
+            color: #64748b;
+            margin: 0.25rem 0 0 0;
+            font-size: 0.9rem;
         }
+
+        .stats-card {
+            background: #fff;
+            border-radius: 8px;
+            padding: 1.5rem;
+            border: 1px solid #e2e8f0;
+            transition: all 0.2s ease;
+            height: 100%;
+        }
+
+        .stats-card:hover {
+            border-color: #3b82f6;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .stats-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin: 0.5rem 0;
+        }
+
+        .stats-label {
+            color: #64748b;
+            font-size: 0.875rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .stats-meta {
+            font-size: 0.813rem;
+            color: #94a3b8;
+            margin-top: 0.75rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid #f1f5f9;
+        }
+
+        .card-clean {
+            background: #fff;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            overflow: hidden;
+        }
+
+        .card-header-clean {
+            background: #f8fafc;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 1rem 1.5rem;
+        }
+
+        .card-header-title {
+            color: #1e293b;
+            font-weight: 600;
+            font-size: 1rem;
+            margin: 0;
+        }
+
+        .btn-export {
+            background: #3b82f6;
+            color: white;
+            padding: 0.5rem 1.25rem;
+            border-radius: 6px;
+            border: none;
+            font-weight: 500;
+            font-size: 0.875rem;
+            transition: all 0.2s ease;
+        }
+
+        .btn-export:hover {
+            background: #2563eb;
+            color: white;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(59, 130, 246, 0.25);
+        }
+
+        .enrollment-item {
+            padding: 1rem 1.5rem;
+            transition: background 0.15s ease;
+        }
+
+        .enrollment-item:hover {
+            background: #f8fafc;
+        }
+
+        .course-item {
+            padding-bottom: 1rem;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .course-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .badge-clean {
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .text-blue { color: #3b82f6; }
+        .text-green { color: #10b981; }
+        .text-orange { color: #f59e0b; }
+        .text-purple { color: #8b5cf6; }
+        
+        .bg-blue-light { background: #eff6ff; color: #3b82f6; }
+        .bg-green-light { background: #f0fdf4; color: #10b981; }
+        .bg-orange-light { background: #fffbeb; color: #f59e0b; }
+        .bg-purple-light { background: #f5f3ff; color: #8b5cf6; }
+
+        .avatar-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #e2e8f0;
+        }
+
+        .rank-badge {
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.813rem;
+        }
+
+        .rank-1 { background: #fef3c7; color: #d97706; }
+        .rank-2 { background: #e5e7eb; color: #6b7280; }
+        .rank-3 { background: #fce7f3; color: #db2777; }
+        .rank-other { background: #f1f5f9; color: #64748b; }
+
+        .progress-clean {
+            height: 6px;
+            background-color: #f1f5f9;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-bar-blue { background: #3b82f6; }
+        .progress-bar-green { background: #10b981; }
+        .progress-bar-orange { background: #f59e0b; }
+        .progress-bar-purple { background: #8b5cf6; }
+        .progress-bar-pink { background: #ec4899; }
     </style>
 
     <div class="container-fluid">
         <!-- Header Section -->
-        <div class="gradient-header">
+        <div class="dashboard-header">
             <div class="d-flex justify-content-between align-items-center">
                 <div>
-                    <h1 class="gradient-text">Dashboard Overview</h1>
-                    <p class="welcome-text">
-                        <i class="bi bi-hand-thumbs-up-fill me-2"></i>Welcome back, <strong>{{ $admin_name }}</strong>!
-                        <span class="ms-2">|</span>
-                        <i class="bi bi-calendar3 ms-2 me-1"></i>{{ date('l, F d, Y') }}
-                    </p>
+                    <h1 class="dashboard-title">Dashboard</h1>
+                    <p class="dashboard-subtitle">Welcome back, {{ $admin_name }} • {{ date('l, F d, Y') }}</p>
                 </div>
                 <div>
-                    <a href="{{ route('admin.export') }}" class="btn-gradient-primary">
-                        <i class="bi bi-download me-1"></i>Export Report
+                    <a href="{{ route('admin.export') }}" class="btn-export">
+                        Export Report
                     </a>
                 </div>
             </div>
         </div>
 
         <!-- Stats Cards Row -->
-        <div class="row g-4 mb-4">
+        <div class="row g-3 mb-4">
+        <!-- Stats Cards Row -->
+        <div class="row g-3 mb-4">
             <!-- Total Students Card -->
             <div class="col-xl-3 col-md-6">
-                <div class="card border-0 shadow-sm h-100 stats-card"
-                    style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 15px; overflow: hidden; animation: float 3s ease-in-out infinite;">
-                    <div class="card-body text-white position-relative">
-                        <div class="position-absolute top-0 end-0 p-3" style="opacity: 0.15;">
-                            <i class="bi bi-people-fill text-white" style="font-size: 5rem;"></i>
-                        </div>
-                        <div class="position-relative">
-                            <div class="d-flex align-items-center mb-3">
-                                <div class="icon-box rounded-circle bg-white bg-opacity-25 p-3 me-3">
-                                    <i class="bi bi-people-fill text-white fs-4"></i>
-                                </div>
-                                <div>
-                                    <p class="mb-0 text-white small" style="opacity: 0.9;">Total Students</p>
-                                    <h2 class="fw-bold mb-0 text-white">{{ $totalStudents }}</h2>
-                                </div>
-                            </div>
-                            <div
-                                class="d-flex justify-content-between align-items-center mt-3 pt-3 border-top border-white border-opacity-25">
-                                <span class="small text-white">
-                                    <i class="bi bi-check-circle-fill me-1 text-white"></i>{{ $activeStudents }} Active
-                                </span>
-                                <span class="small text-white" style="opacity: 0.85;">
-                                    {{ $totalStudents - $activeStudents }} Inactive
-                                </span>
-                            </div>
-                        </div>
+                <div class="stats-card">
+                    <div class="stats-label text-blue">Total Students</div>
+                    <div class="stats-value">{{ $totalStudents }}</div>
+                    <div class="stats-meta">
+                        <span class="text-green">{{ $activeStudents }} Active</span>
+                        <span class="text-muted ms-3">{{ $totalStudents - $activeStudents }} Inactive</span>
                     </div>
                 </div>
             </div>
 
             <!-- Total Instructors Card -->
             <div class="col-xl-3 col-md-6">
-                <div class="card border-0 shadow-sm h-100 stats-card"
-                    style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); border-radius: 15px; overflow: hidden; animation: float 3s ease-in-out infinite 0.5s;">
-                    <div class="card-body text-white position-relative">
-                        <div class="position-absolute top-0 end-0 p-3" style="opacity: 0.15;">
-                            <i class="bi bi-person-badge-fill text-white" style="font-size: 5rem;"></i>
-                        </div>
-                        <div class="position-relative">
-                            <div class="d-flex align-items-center mb-3">
-                                <div class="icon-box rounded-circle bg-white bg-opacity-25 p-3 me-3">
-                                    <i class="bi bi-person-badge-fill text-white fs-4"></i>
-                                </div>
-                                <div>
-                                    <p class="mb-0 text-white small" style="opacity: 0.9;">Total Instructors</p>
-                                    <h2 class="fw-bold mb-0 text-white">{{ $totalInstructors }}</h2>
-                                </div>
-                            </div>
-                            <div
-                                class="d-flex justify-content-between align-items-center mt-3 pt-3 border-top border-white border-opacity-25">
-                                <span class="small text-white">
-                                    <i class="bi bi-check-circle-fill me-1 text-white"></i>{{ $activeInstructors }} Active
-                                </span>
-                                <span class="small text-white" style="opacity: 0.85;">
-                                    {{ $totalInstructors - $activeInstructors }} Inactive
-                                </span>
-                            </div>
-                        </div>
+                <div class="stats-card">
+                    <div class="stats-label text-purple">Total Instructors</div>
+                    <div class="stats-value">{{ $totalInstructors }}</div>
+                    <div class="stats-meta">
+                        <span class="text-green">{{ $activeInstructors }} Active</span>
+                        <span class="text-muted ms-3">{{ $totalInstructors - $activeInstructors }} Inactive</span>
                     </div>
                 </div>
             </div>
 
             <!-- Total Courses Card -->
             <div class="col-xl-3 col-md-6">
-                <div class="card border-0 shadow-sm h-100 stats-card"
-                    style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); border-radius: 15px; overflow: hidden; animation: float 3s ease-in-out infinite 1s;">
-                    <div class="card-body text-white position-relative">
-                        <div class="position-absolute top-0 end-0 p-3" style="opacity: 0.15;">
-                            <i class="bi bi-book-fill text-white" style="font-size: 5rem;"></i>
-                        </div>
-                        <div class="position-relative">
-                            <div class="d-flex align-items-center mb-3">
-                                <div class="icon-box rounded-circle bg-white bg-opacity-25 p-3 me-3">
-                                    <i class="bi bi-book-fill text-white fs-4"></i>
-                                </div>
-                                <div>
-                                    <p class="mb-0 text-white small" style="opacity: 0.9;">Total Courses</p>
-                                    <h2 class="fw-bold mb-0 text-white">{{ $totalCourses }}</h2>
-                                </div>
-                            </div>
-                            <div
-                                class="d-flex justify-content-between align-items-center mt-3 pt-3 border-top border-white border-opacity-25">
-                                <span class="small text-white">
-                                    <i class="bi bi-check-circle-fill me-1 text-white"></i>{{ $activeCourses }} Active
-                                </span>
-                                <span class="small text-white" style="opacity: 0.85;">
-                                    {{ $pendingCourses }} Pending
-                                </span>
-                            </div>
-                        </div>
+                <div class="stats-card">
+                    <div class="stats-label text-orange">Total Courses</div>
+                    <div class="stats-value">{{ $totalCourses }}</div>
+                    <div class="stats-meta">
+                        <span class="text-green">{{ $activeCourses }} Active</span>
+                        <span class="text-muted ms-3">{{ $pendingCourses }} Pending</span>
                     </div>
                 </div>
             </div>
 
             <!-- Total Enrollments Card -->
             <div class="col-xl-3 col-md-6">
-                <div class="card border-0 shadow-sm h-100 stats-card"
-                    style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); border-radius: 15px; overflow: hidden; animation: float 3s ease-in-out infinite 1.5s;">
-                    <div class="card-body text-white position-relative">
-                        <div class="position-absolute top-0 end-0 p-3" style="opacity: 0.15;">
-                            <i class="bi bi-clipboard-check-fill text-white" style="font-size: 5rem;"></i>
-                        </div>
-                        <div class="position-relative">
-                            <div class="d-flex align-items-center mb-3">
-                                <div class="icon-box rounded-circle bg-white bg-opacity-25 p-3 me-3">
-                                    <i class="bi bi-clipboard-check-fill text-white fs-4"></i>
-                                </div>
-                                <div>
-                                    <p class="mb-0 text-white small" style="opacity: 0.9;">Total Enrollments</p>
-                                    <h2 class="fw-bold mb-0 text-white">{{ $totalEnrollments }}</h2>
-                                </div>
-                            </div>
-                            <div
-                                class="d-flex justify-content-between align-items-center mt-3 pt-3 border-top border-white border-opacity-25">
-                                <span class="small text-white">
-                                    <i class="bi bi-calendar-check me-1 text-white"></i>All Time
-                                </span>
-                                <span class="small text-white" style="opacity: 0.85;">
-                                    <i class="bi bi-graph-up me-1 text-white"></i>Growing
-                                </span>
-                            </div>
-                        </div>
+                <div class="stats-card">
+                    <div class="stats-label text-green">Total Enrollments</div>
+                    <div class="stats-value">{{ $totalEnrollments }}</div>
+                    <div class="stats-meta">
+                        <span class="text-muted">All Time</span>
                     </div>
                 </div>
             </div>
         </div>
 
         <!-- Revenue Cards Row -->
-        <div class="row g-4 mb-4">
+        <div class="row g-3 mb-4">
             <!-- Total Revenue Card -->
             <div class="col-xl-6">
-                <div class="card border-0 shadow-sm h-100"
-                    style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); border-radius: 15px; overflow: hidden; animation: float 3s ease-in-out infinite;">
-                    <div class="card-body text-white position-relative">
-                        <div class="position-absolute" style="top: -20px; right: -20px; font-size: 10rem; opacity: 0.1;">
-                            <i class="bi bi-cash-stack"></i>
+                <div class="stats-card">
+                    <div class="stats-label">Total Revenue</div>
+                    <div class="stats-value text-blue">${{ number_format($totalRevenue, 2) }}</div>
+                    <div class="row mt-3 pt-3" style="border-top: 1px solid #f1f5f9;">
+                        <div class="col-6">
+                            <small class="text-muted d-block">Total Payments</small>
+                            <strong class="text-dark">{{ App\Models\Payment::count() }}</strong>
                         </div>
-                        <div class="position-relative">
-                            <div class="d-flex align-items-start justify-content-between">
-                                <div>
-                                    <div class="d-flex align-items-center mb-2">
-                                        <div class="icon-box rounded-circle bg-white bg-opacity-25 p-3 me-3">
-                                            <i class="bi bi-cash-stack fs-3"></i>
-                                        </div>
-                                        <div>
-                                            <p class="mb-1" style="opacity: 0.85;">Total Revenue</p>
-                                            <h1 class="fw-bold mb-0 display-5">${{ number_format($totalRevenue, 2) }}</h1>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="badge bg-white bg-opacity-25 px-3 py-2">
-                                    <i class="bi bi-arrow-up-right me-1"></i>All Time
-                                </div>
-                            </div>
-                            <div class="row mt-4 pt-3 border-top border-white border-opacity-25">
-                                <div class="col-6">
-                                    <p class="mb-1 small" style="opacity: 0.85;">Total Payments</p>
-                                    <h5 class="mb-0 fw-bold">{{ App\Models\Payment::count() }}</h5>
-                                </div>
-                                <div class="col-6">
-                                    <p class="mb-1 small" style="opacity: 0.85;">Avg. Transaction</p>
-                                    <h5 class="mb-0 fw-bold">
-                                        ${{ App\Models\Payment::count() > 0 ? number_format($totalRevenue / App\Models\Payment::count(), 2) : '0.00' }}
-                                    </h5>
-                                </div>
-                            </div>
+                        <div class="col-6">
+                            <small class="text-muted d-block">Avg. Transaction</small>
+                            <strong class="text-dark">
+                                ${{ App\Models\Payment::count() > 0 ? number_format($totalRevenue / App\Models\Payment::count(), 2) : '0.00' }}
+                            </strong>
                         </div>
                     </div>
                 </div>
@@ -285,46 +269,26 @@
 
             <!-- This Month Revenue Card -->
             <div class="col-xl-6">
-                <div class="card border-0 shadow-sm h-100"
-                    style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); border-radius: 15px; overflow: hidden; animation: float 3s ease-in-out infinite 0.5s;">
-                    <div class="card-body text-dark position-relative">
-                        <div class="position-absolute" style="top: -20px; right: -20px; font-size: 10rem; opacity: 0.1;">
-                            <i class="bi bi-graph-up-arrow"></i>
+                <div class="stats-card">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <div class="stats-label">This Month Revenue</div>
+                            <div class="stats-value text-green">${{ number_format($thisMonthRevenue, 2) }}</div>
                         </div>
-                        <div class="position-relative">
-                            <div class="d-flex align-items-start justify-content-between">
-                                <div>
-                                    <div class="d-flex align-items-center mb-2">
-                                        <div class="icon-box rounded-circle bg-white bg-opacity-50 p-3 me-3">
-                                            <i class="bi bi-graph-up-arrow fs-3 text-primary"></i>
-                                        </div>
-                                        <div>
-                                            <p class="mb-1 text-muted">This Month Revenue</p>
-                                            <h1 class="fw-bold mb-0 display-5 text-dark">
-                                                ${{ number_format($thisMonthRevenue, 2) }}</h1>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="badge bg-primary px-3 py-2">
-                                    <i class="bi bi-calendar-month me-1"></i>{{ date('F Y') }}
-                                </div>
-                            </div>
-                            <div class="row mt-4 pt-3 border-top border-dark border-opacity-10">
-                                <div class="col-6">
-                                    <p class="mb-1 small text-muted">This Month Payments</p>
-                                    <h5 class="mb-0 fw-bold text-dark">
-                                        {{ App\Models\Payment::whereYear('created_at', date('Y'))->whereMonth('created_at', date('m'))->count() }}
-                                    </h5>
-                                </div>
-                                <div class="col-6">
-                                    <p class="mb-1 small text-muted">Growth</p>
-                                    <h5
-                                        class="mb-0 fw-bold {{ $growthDirection == 'up' ? 'text-success' : 'text-danger' }}">
-                                        <i
-                                            class="bi bi-arrow-{{ $growthDirection }}"></i>{{ number_format(abs($growthPercentage), 1) }}%
-                                    </h5>
-                                </div>
-                            </div>
+                        <span class="badge bg-blue-light badge-clean">{{ date('F Y') }}</span>
+                    </div>
+                    <div class="row mt-3 pt-3" style="border-top: 1px solid #f1f5f9;">
+                        <div class="col-6">
+                            <small class="text-muted d-block">This Month Payments</small>
+                            <strong class="text-dark">
+                                {{ App\Models\Payment::whereYear('created_at', date('Y'))->whereMonth('created_at', date('m'))->count() }}
+                            </strong>
+                        </div>
+                        <div class="col-6">
+                            <small class="text-muted d-block">Growth</small>
+                            <strong class="{{ $growthDirection == 'up' ? 'text-green' : 'text-danger' }}">
+                                {{ $growthDirection == 'up' ? '↑' : '↓' }}{{ number_format(abs($growthPercentage), 1) }}%
+                            </strong>
                         </div>
                     </div>
                 </div>
@@ -332,18 +296,14 @@
         </div>
 
         <!-- Enrollment Trends Chart -->
-        <div class="row g-4 mb-4">
+        <div class="row g-3 mb-4">
             <div class="col-xl-12">
-                <div class="card border-0 shadow-sm"
-                    style="border-radius: 15px; overflow: hidden; animation: float 3s ease-in-out infinite;">
-                    <div class="card-header text-white py-3"
-                        style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border: none;">
-                        <h5 class="mb-0 fw-bold">
-                            <i class="bi bi-graph-up me-2"></i>Enrollment Trends
-                        </h5>
-                        <small style="opacity: 0.85;">Last 6 months (monthly) + {{ date('F Y') }} (daily)</small>
+                <div class="card-clean">
+                    <div class="card-header-clean">
+                        <h5 class="card-header-title">Enrollment Trends</h5>
+                        <small class="text-muted">Last 6 months (monthly) + {{ date('F Y') }} (daily)</small>
                     </div>
-                    <div class="card-body">
+                    <div class="p-3">
                         <canvas id="enrollmentChart" height="80"></canvas>
                     </div>
                 </div>
@@ -351,175 +311,126 @@
         </div>
 
         <!-- Recent Enrollments and Popular Courses -->
-        <div class="row g-4">
+        <div class="row g-3">
             <!-- Recent Enrollments -->
             <div class="col-xl-6">
-                <div class="card border-0 shadow-sm h-100"
-                    style="border-radius: 15px; overflow: hidden; animation: float 3s ease-in-out infinite;">
-                    <div class="card-header text-white py-3 d-flex justify-content-between align-items-center"
-                        style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); border: none;">
+                <div class="card-clean h-100">
+                    <div class="card-header-clean d-flex justify-content-between align-items-center">
                         <div>
-                            <h5 class="mb-0 fw-bold">
-                                <i class="bi bi-clock-history me-2"></i>Recent Enrollments
-                            </h5>
-                            <small style="opacity: 0.85;">Latest student enrollments</small>
+                            <h5 class="card-header-title">Recent Enrollments</h5>
+                            <small class="text-muted">Latest student enrollments</small>
                         </div>
-                        <a href="{{ route('admin.enrollments.index') }}" class="btn btn-sm btn-light">
-                            <i class="bi bi-arrow-right"></i> View All
+                        <a href="{{ route('admin.enrollments.index') }}" class="btn btn-sm btn-outline-primary">
+                            View All
                         </a>
                     </div>
-                    <div class="card-body p-0">
-                        <div class="list-group list-group-flush">
-                            @forelse($recentEnrollments as $enrollment)
-                                <div class="list-group-item border-0 py-3 enrollment-item">
-                                    <div class="d-flex align-items-start">
-                                        <!-- Student Avatar -->
-                                        <div class="flex-shrink-0">
-                                            @if($enrollment->student && $enrollment->student->image)
-                                                <img src="{{ asset('uploads/students/' . $enrollment->student->image) }}"
-                                                    alt="{{ $enrollment->student->name }}" class="rounded-circle"
-                                                    style="width: 50px; height: 50px; object-fit: cover; border: 3px solid #43e97b;">
-                                            @else
-                                                <div class="rounded-circle d-flex align-items-center justify-content-center"
-                                                    style="width: 50px; height: 50px; background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); border: 3px solid #f0f0f0;">
-                                                    <span class="text-white fw-bold">
-                                                        {{ $enrollment->student ? strtoupper(substr($enrollment->student->name, 0, 2)) : '?' }}
-                                                    </span>
-                                                </div>
-                                            @endif
-                                        </div>
-
-                                        <!-- Enrollment Details -->
-                                        <div class="flex-grow-1 ms-3">
-                                            <div class="d-flex justify-content-between align-items-start">
-                                                <div>
-                                                    <h6 class="mb-1 fw-bold">{{ $enrollment->student->name ?? 'N/A' }}</h6>
-                                                    <p class="mb-1 text-muted small">
-                                                        <i class="bi bi-book-fill text-primary me-1"></i>
-                                                        {{ $enrollment->course->title ?? 'N/A' }}
-                                                    </p>
-                                                </div>
-                                                <span class="badge bg-light text-dark border">
-                                                    <i class="bi bi-calendar3 me-1"></i>
-                                                    {{ $enrollment->created_at->format('M d') }}
+                    <div class="p-0">
+                        @forelse($recentEnrollments as $enrollment)
+                            <div class="enrollment-item border-bottom">
+                                <div class="d-flex align-items-start">
+                                    <!-- Student Avatar -->
+                                    <div class="flex-shrink-0">
+                                        @if($enrollment->student && $enrollment->student->image)
+                                            <img src="{{ asset('uploads/students/' . $enrollment->student->image) }}"
+                                                alt="{{ $enrollment->student->name }}" class="avatar-circle">
+                                        @else
+                                            <div class="avatar-circle bg-blue-light d-flex align-items-center justify-content-center">
+                                                <span class="text-blue fw-bold" style="font-size: 0.875rem;">
+                                                    {{ $enrollment->student ? strtoupper(substr($enrollment->student->name, 0, 2)) : '?' }}
                                                 </span>
                                             </div>
-                                            <div class="mt-2">
-                                                <small class="text-muted">
-                                                    <i class="bi bi-clock me-1"></i>
-                                                    {{ $enrollment->created_at->diffForHumans() }}
-                                                </small>
+                                        @endif
+                                    </div>
+
+                                    <!-- Enrollment Details -->
+                                    <div class="flex-grow-1 ms-3">
+                                        <div class="d-flex justify-content-between align-items-start">
+                                            <div>
+                                                <h6 class="mb-1 fw-semibold">{{ $enrollment->student->name ?? 'N/A' }}</h6>
+                                                <p class="mb-1 text-muted small">
+                                                    {{ $enrollment->course->title ?? 'N/A' }}
+                                                </p>
                                             </div>
+                                            <span class="badge bg-light text-dark border" style="font-size: 0.75rem;">
+                                                {{ $enrollment->created_at->format('M d') }}
+                                            </span>
+                                        </div>
+                                        <div class="mt-2">
+                                            <small class="text-muted">
+                                                {{ $enrollment->created_at->diffForHumans() }}
+                                            </small>
                                         </div>
                                     </div>
                                 </div>
-                            @empty
-                                <div class="text-center py-5">
-                                    <i class="bi bi-inbox text-muted" style="font-size: 3rem; opacity: 0.3;"></i>
-                                    <p class="text-muted mt-3 mb-0">No enrollments found</p>
-                                </div>
-                            @endforelse
-                        </div>
+                            </div>
+                        @empty
+                            <div class="text-center py-5">
+                                <p class="text-muted mb-0">No enrollments found</p>
+                            </div>
+                        @endforelse
+                        @if($recentEnrollments->count() > 0)
+                            <div class="p-3 bg-light border-top text-center">
+                                <a href="{{ route('admin.enrollments.index') }}" class="text-decoration-none fw-semibold text-primary" style="font-size: 0.875rem;">
+                                    View All Enrollments →
+                                </a>
+                            </div>
+                        @endif
                     </div>
-                    @if($recentEnrollments->count() > 0)
-                        <div class="card-footer bg-light border-0 text-center py-3">
-                            <a href="{{ route('admin.enrollments.index') }}" class="text-decoration-none fw-semibold">
-                                View All Enrollments <i class="bi bi-arrow-right ms-1"></i>
-                            </a>
-                        </div>
-                    @endif
                 </div>
             </div>
 
             <!-- Popular Courses -->
             <div class="col-xl-6">
-                <div class="card border-0 shadow-sm h-100"
-                    style="border-radius: 15px; overflow: hidden; animation: float 3s ease-in-out infinite 0.5s;">
-                    <div class="card-header text-white py-3 d-flex justify-content-between align-items-center"
-                        style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); border: none;">
+                <div class="card-clean h-100">
+                    <div class="card-header-clean d-flex justify-content-between align-items-center">
                         <div>
-                            <h5 class="mb-0 fw-bold">
-                                <i class="bi bi-trophy-fill me-2"></i>Popular Courses
-                            </h5>
-                            <small style="opacity: 0.85;">Top courses by enrollment</small>
+                            <h5 class="card-header-title">Popular Courses</h5>
+                            <small class="text-muted">Top courses by enrollment</small>
                         </div>
-                        <a href="{{ route('admin.courses.index') }}" class="btn btn-sm btn-light">
-                            <i class="bi bi-arrow-right"></i> View All
+                        <a href="{{ route('admin.courses.index') }}" class="btn btn-sm btn-outline-primary">
+                            View All
                         </a>
                     </div>
-                    <div class="card-body">
+                    <div class="p-3">
                         @forelse($popularCourses as $index => $course)
-                            <div class="mb-4 {{ $loop->last ? 'mb-0' : '' }} course-item">
-                                <div class="d-flex align-items-center mb-2">
+                            <div class="course-item">
+                                <div class="d-flex align-items-start">
                                     <!-- Rank Badge -->
                                     <div class="flex-shrink-0 me-3">
-                                        @if($index === 0)
-                                            <div class="badge rounded-circle p-2"
-                                                style="width: 40px; height: 40px; background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%); font-size: 1.1rem;">
-                                                <i class="bi bi-trophy-fill"></i>
-                                            </div>
-                                        @elseif($index === 1)
-                                            <div class="badge rounded-circle p-2"
-                                                style="width: 40px; height: 40px; background: linear-gradient(135deg, #C0C0C0 0%, #A9A9A9 100%); font-size: 1.1rem;">
-                                                #2
-                                            </div>
-                                        @elseif($index === 2)
-                                            <div class="badge rounded-circle p-2"
-                                                style="width: 40px; height: 40px; background: linear-gradient(135deg, #CD7F32 0%, #B8860B 100%); font-size: 1.1rem;">
-                                                #3
-                                            </div>
-                                        @else
-                                            <div class="badge rounded-circle bg-light text-dark p-2"
-                                                style="width: 40px; height: 40px; font-size: 1.1rem;">
+                                        <div class="rank-badge {{ $index === 0 ? 'rank-1' : ($index === 1 ? 'rank-2' : ($index === 2 ? 'rank-3' : 'rank-other')) }}">
+                                            @if($index === 0)
+                                                #1
+                                            @else
                                                 #{{ $index + 1 }}
-                                            </div>
-                                        @endif
+                                            @endif
+                                        </div>
                                     </div>
 
                                     <!-- Course Info -->
                                     <div class="flex-grow-1">
-                                        <div class="d-flex justify-content-between align-items-start">
-                                            <div class="flex-grow-1 me-2">
-                                                <h6 class="mb-1 fw-bold">{{ $course->title }}</h6>
-                                                <div class="d-flex align-items-center gap-2">
-                                                    <span class="badge bg-primary">
-                                                        <i class="bi bi-people-fill me-1"></i>
-                                                        {{ $course->students_count }}
-                                                        {{ Str::plural('student', $course->students_count) }}
-                                                    </span>
-                                                    @if($course->type == 'free')
-                                                        <span class="badge bg-success">
-                                                            <i class="bi bi-gift-fill me-1"></i>Free
-                                                        </span>
-                                                    @else
-                                                        <span class="badge bg-warning text-dark">
-                                                            <i class="bi bi-cash me-1"></i>${{ number_format($course->price, 2) }}
-                                                        </span>
-                                                    @endif
-                                                </div>
-                                            </div>
+                                        <h6 class="mb-2 fw-semibold">{{ $course->title }}</h6>
+                                        <div class="d-flex align-items-center gap-2 mb-2">
+                                            <span class="badge bg-blue-light badge-clean">
+                                                {{ $course->students_count }} {{ Str::plural('student', $course->students_count) }}
+                                            </span>
+                                            @if($course->type == 'free')
+                                                <span class="badge bg-green-light badge-clean">Free</span>
+                                            @else
+                                                <span class="badge bg-orange-light badge-clean">${{ number_format($course->price, 2) }}</span>
+                                            @endif
                                         </div>
 
                                         <!-- Progress Bar -->
-                                        <div class="mt-2">
-                                            @php
-                                                $maxEnrollments = $popularCourses->max('students_count');
-                                                $percentage = $maxEnrollments > 0 ? ($course->students_count / $maxEnrollments) * 100 : 0;
-                                                $colors = [
-                                                    ['from' => '#667eea', 'to' => '#764ba2'],
-                                                    ['from' => '#f093fb', 'to' => '#f5576c'],
-                                                    ['from' => '#4facfe', 'to' => '#00f2fe'],
-                                                    ['from' => '#43e97b', 'to' => '#38f9d7'],
-                                                    ['from' => '#fa709a', 'to' => '#fee140']
-                                                ];
-                                                $color = $colors[$index % count($colors)];
-                                            @endphp
-                                            <div class="progress"
-                                                style="height: 8px; background-color: #f0f0f0; border-radius: 10px;">
-                                                <div class="progress-bar" role="progressbar"
-                                                    style="width: {{ $percentage }}%; background: linear-gradient(90deg, {{ $color['from'] }} 0%, {{ $color['to'] }} 100%); border-radius: 10px;"
-                                                    aria-valuenow="{{ $percentage }}" aria-valuemin="0" aria-valuemax="100">
-                                                </div>
+                                        @php
+                                            $maxEnrollments = $popularCourses->max('students_count');
+                                            $percentage = $maxEnrollments > 0 ? ($course->students_count / $maxEnrollments) * 100 : 0;
+                                            $barColors = ['progress-bar-blue', 'progress-bar-purple', 'progress-bar-green', 'progress-bar-orange', 'progress-bar-pink'];
+                                            $barColor = $barColors[$index % count($barColors)];
+                                        @endphp
+                                        <div class="progress-clean">
+                                            <div class="progress-bar {{ $barColor }}" role="progressbar"
+                                                style="width: {{ $percentage }}%"
+                                                aria-valuenow="{{ $percentage }}" aria-valuemin="0" aria-valuemax="100">
                                             </div>
                                         </div>
                                     </div>
@@ -527,15 +438,14 @@
                             </div>
                         @empty
                             <div class="text-center py-5">
-                                <i class="bi bi-book text-muted" style="font-size: 3rem; opacity: 0.3;"></i>
-                                <p class="text-muted mt-3 mb-0">No courses found</p>
+                                <p class="text-muted mb-0">No courses found</p>
                             </div>
                         @endforelse
                     </div>
                     @if($popularCourses->count() > 0)
-                        <div class="card-footer bg-light border-0 text-center py-3">
-                            <a href="{{ route('admin.courses.index') }}" class="text-decoration-none fw-semibold">
-                                View All Courses <i class="bi bi-arrow-right ms-1"></i>
+                        <div class="p-3 bg-light border-top text-center">
+                            <a href="{{ route('admin.courses.index') }}" class="text-decoration-none fw-semibold text-primary" style="font-size: 0.875rem;">
+                                View All Courses →
                             </a>
                         </div>
                     @endif
@@ -554,29 +464,15 @@
                 datasets: [{
                     label: 'Enrollments',
                     data: {!! json_encode($monthCounts) !!},
-                    borderColor: 'rgb(102, 126, 234)',
-                    backgroundColor: 'rgba(102, 126, 234, 0.1)',
-                    tension: 0.3,
+                    borderColor: '#3b82f6',
+                    backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                    tension: 0.4,
                     fill: true,
-                    pointRadius: 3,
+                    pointRadius: 4,
                     pointHoverRadius: 6,
-                    pointBackgroundColor: 'rgb(102, 126, 234)',
+                    pointBackgroundColor: '#3b82f6',
                     pointBorderColor: '#fff',
                     pointBorderWidth: 2,
-                    segment: {
-                        borderDash: ctx => {
-                            const labels = {!! json_encode($monthLabels) !!};
-                            const currentIndex = ctx.p0DataIndex;
-                            if (currentIndex > 0 && labels[currentIndex - 1].includes(' 2') && labels[currentIndex].includes(' ')) {
-                                const prevHasYear = /\d{4}/.test(labels[currentIndex - 1]);
-                                const currIsDay = /\d{1,2}$/.test(labels[currentIndex]);
-                                if (prevHasYear && currIsDay) {
-                                    return [5, 5];
-                                }
-                            }
-                            return undefined;
-                        }
-                    }
                 }]
             },
             options: {
@@ -588,10 +484,15 @@
                 },
                 plugins: {
                     legend: {
-                        display: true,
-                        position: 'top',
+                        display: false,
                     },
                     tooltip: {
+                        backgroundColor: '#1e293b',
+                        padding: 12,
+                        titleColor: '#fff',
+                        bodyColor: '#fff',
+                        borderColor: '#3b82f6',
+                        borderWidth: 1,
                         callbacks: {
                             label: function (context) {
                                 return 'Enrollments: ' + context.parsed.y;
@@ -602,165 +503,36 @@
                 scales: {
                     y: {
                         beginAtZero: true,
-                        ticks: {
-                            stepSize: 1,
-                            precision: 0
+                        grid: {
+                            color: '#f1f5f9',
+                            drawBorder: false,
                         },
-                        title: {
-                            display: true,
-                            text: 'Number of Enrollments'
+                        ticks: {
+                            color: '#64748b',
+                            font: {
+                                size: 11
+                            }
                         }
                     },
                     x: {
-                        title: {
-                            display: true,
-                            text: 'Previous Months (Monthly) → Current Month (Daily)'
+                        grid: {
+                            display: false,
+                            drawBorder: false,
                         },
                         ticks: {
-                            maxRotation: 45,
-                            minRotation: 45,
-                            autoSkip: true,
-                            maxTicksLimit: 20
+                            color: '#64748b',
+                            font: {
+                                size: 11
+                            }
                         }
                     }
                 }
             }
         });
     </script>
-
-    <style>
-        /* Icon Box Animation */
-        .icon-box {
-            transition: all 0.3s ease;
-        }
-
-        .stats-card:hover .icon-box {
-            transform: scale(1.1) rotate(5deg);
-        }
-
-        /* List Group Items Hover */
-        .enrollment-item {
-            transition: all 0.3s ease;
-        }
-
-        .enrollment-item:hover {
-            background-color: rgba(67, 233, 123, 0.05);
-            transform: translateX(5px);
-        }
-
-        /* Course Item Hover */
-        .course-item {
-            transition: all 0.3s ease;
-        }
-
-        .course-item:hover {
-            transform: translateX(5px);
-        }
-
-        /* Progress Bar Animation */
-        .progress-bar {
-            transition: width 1s ease-in-out;
-            animation: progressAnimation 1.5s ease-in-out;
-        }
-
-        @keyframes progressAnimation {
-            0% {
-                width: 0;
-            }
-        }
-
-        /* Badge Animations */
-        .badge {
-            transition: all 0.2s ease;
-        }
-
-        .badge:hover {
-            transform: scale(1.05);
-        }
-
-        /* Rank Badge Styling */
-        .badge.rounded-circle {
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        /* Card Footer Links */
-        .card-footer a {
-            transition: all 0.2s ease;
-        }
-
-        .card-footer a:hover {
-            color: #667eea !important;
-            transform: translateX(5px);
-            display: inline-block;
-        }
-
-        /* Student Avatar Border Animation */
-        .rounded-circle {
-            transition: all 0.3s ease;
-        }
-
-        .enrollment-item:hover .rounded-circle {
-            transform: scale(1.1);
-            box-shadow: 0 5px 15px rgba(67, 233, 123, 0.4);
-        }
-
-        /* Number Counter Animation */
-        @keyframes countUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .stats-card h2 {
-            animation: countUp 0.6s ease-out;
-        }
-
-        /* Button Hover Effects */
-        .btn {
-            transition: all 0.3s ease;
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-        }
-
-        /* Floating Animation for Icons */
-        @keyframes floatIcon {
-
-            0%,
-            100% {
-                transform: translateY(0);
-            }
-
-            50% {
-                transform: translateY(-10px);
-            }
-        }
-
-        .stats-card:hover i.bi-people-fill,
-        .stats-card:hover i.bi-person-badge-fill,
-        .stats-card:hover i.bi-book-fill,
-        .stats-card:hover i.bi-clipboard-check-fill {
-            animation: floatIcon 2s ease-in-out infinite;
-        }
-
-        /* Card Hover Effect */
-        .card {
-            transition: all 0.3s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-3px);
-        }
-    </style>
 @endsection
+                }
+                }
+            }
+        });
+    </script>
