@@ -34,7 +34,26 @@ class LoginController extends Controller
 
     public function dashboard()
     {
-        return view('student.dashboard'); // create this blade
+        $student = Auth::guard('student')->user();
+
+        // Get all enrolled courses with instructor info
+        $allCourses = $student->courses()
+            ->with('instructor')
+            ->withPivot('created_at')
+            ->get();
+
+        // Calculate progress for each course (for now, using random percentage)
+        $allCourses->each(function ($course) {
+            $course->progress = rand(10, 95); // Replace with actual progress calculation
+        });
+
+        // Get enrolled courses count
+        $enrolledCount = $allCourses->count();
+
+        // Get completed courses count (courses with 100% progress)
+        $completedCount = 0; // Replace with actual completed course logic
+
+        return view('student.dashboard', compact('student', 'allCourses', 'enrolledCount', 'completedCount'));
     }
 
     public function profile()
