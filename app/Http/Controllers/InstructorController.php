@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Instructor;
 use App\Models\Course;
+use App\Models\Enrollment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -27,28 +28,53 @@ class InstructorController extends Controller
 
     public function enrollments()
     {
-        // Check if instructor is logged in
         if (!session('instructor_logged_in')) {
             return redirect()->route('instructor.login')->with('error', 'Please login first.');
         }
 
-        // Get the logged-in instructor using email from session
-        $instructor = \App\Models\Instructor::where('email', session('instructor_email'))->first();
+        $instructorId = session('instructor_id');
+        $instructor = Instructor::find($instructorId);
 
         if (!$instructor) {
-            // If somehow instructor is missing in DB
-            session()->forget(['instructor_logged_in', 'instructor_name', 'instructor_email']);
+            session()->forget(['instructor_logged_in', 'instructor_name', 'instructor_id']);
             return redirect()->route('instructor.login')->with('error', 'Instructor not found. Please login again.');
         }
 
-        // Get all enrollments for courses this instructor teaches
-        $enrollments = \App\Models\Enrollment::whereHas('course', function ($q) use ($instructor) {
-            $q->where('instructor_id', $instructor->id);
-        })->with(['student', 'course'])->get();
+        $courses = Course::with([
+            'enrollments.student' => function ($query) {
+                $query->select('students.id', 'students.name', 'students.email', 'students.image');
+            }
+        ])
+            ->where('instructor_id', $instructor->id)
+            ->orderBy('title')
+            ->get();
 
-        return view('instructor.enrollments.index', [
-            'enrollments' => $enrollments,
-            'instructorName' => $instructor->name
+        $courses->each(function ($course) {
+            $course->enrollments = $course->enrollments->sortByDesc('created_at')->values();
+        });
+
+        $allEnrollments = $courses->flatMap(function ($course) {
+            return $course->enrollments->map(function ($enrollment) use ($course) {
+                $enrollment->course_title = $course->title;
+                return $enrollment;
+            });
+        });
+
+        $coursesWithEnrollments = $courses->filter(function ($course) {
+            return $course->enrollments->isNotEmpty();
+        })->count();
+
+        $stats = [
+            'total_enrollments' => $allEnrollments->count(),
+            'unique_students' => $allEnrollments->pluck('student_id')->unique()->count(),
+            'courses_with_students' => $coursesWithEnrollments,
+            'recent_enrollments' => $allEnrollments->where('created_at', '>=', now()->subDays(7))->count(),
+        ];
+
+        return view('instructor.enrollments', [
+            'courses' => $courses,
+            'stats' => $stats,
+            'instructor' => $instructor,
         ]);
     }
 
@@ -159,12 +185,41 @@ class InstructorController extends Controller
             return redirect()->route('instructor.login');
         }
 
-        // Get courses created by this instructor
-        $courses = Course::where('instructor_id', session('instructor_id'))->get();
+        $instructorId = session('instructor_id');
+
+        // Fetch courses created by this instructor along with enrollment counts
+        $courses = Course::where('instructor_id', $instructorId)
+            ->orderByDesc('created_at')
+            ->withCount('enrollments')
+            ->get();
+
+        // Aggregate simple metrics
+        $totalCourses = $courses->count();
+        $activeCourses = $courses->where('status', 'active')->count();
+
+        $enrollmentsQuery = Enrollment::whereHas('course', function ($query) use ($instructorId) {
+            $query->where('instructor_id', $instructorId);
+        });
+
+        $totalEnrollments = (clone $enrollmentsQuery)->count();
+        $uniqueStudents = (clone $enrollmentsQuery)->distinct('student_id')->count('student_id');
+
+        $recentEnrollments = (clone $enrollmentsQuery)
+            ->with(['student:id,name,email,image', 'course:id,title'])
+            ->latest()
+            ->take(5)
+            ->get();
 
         return view('instructor.dashboard', [
             'instructor_name' => session('instructor_name'),
-            'courses' => $courses
+            'courses' => $courses,
+            'stats' => [
+                'total_courses' => $totalCourses,
+                'active_courses' => $activeCourses,
+                'total_enrollments' => $totalEnrollments,
+                'unique_students' => $uniqueStudents,
+            ],
+            'recentEnrollments' => $recentEnrollments,
         ]);
     }
 

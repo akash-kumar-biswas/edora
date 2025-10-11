@@ -44,18 +44,6 @@
             margin-top: auto !important;
         }
 
-        /* Sidebar links styling */
-        /* .instructor-sidebar .nav-link {
-            color: rgba(255, 255, 255, 0.85);
-            padding: 0.75rem 1rem;
-            border-radius: 6px;
-            transition: all 0.2s ease;
-        } */
-
-        /* .instructor-sidebar .nav-link:hover {
-            background: rgba(255,255,255,0.1);
-            color: white;
-        } */
     </style>
 </head>
 <body>
@@ -64,7 +52,7 @@
         <div class="instructor-sidebar d-flex flex-column text-white">
             <div class="sidebar-header mb-4 text-center">
                 <h4 class="fw-bold"><i class="bi bi-person-badge"></i> EDORA</h4>
-                <p class="small text-muted">Instructor Panel</p>
+                <p class="small">Instructor Panel</p>
             </div>
 
             <ul class="nav flex-column">

@@ -147,3 +147,30 @@ table img.rounded-circle {
     border-radius: 8px;
     border: 2px solid #dee2e6;
 }
+
+/* Enrollment page */
+.stats-card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+}
+
+.stats-card .card-body {
+    padding: 1.5rem 1rem;
+}
+
+.student-avatar {
+    width: 48px;
+    height: 48px;
+    object-fit: cover;
+    border: 2px solid rgba(102, 126, 234, 0.35);
+}
+
+.placeholder-avatar {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+}
