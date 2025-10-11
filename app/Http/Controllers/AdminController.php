@@ -7,6 +7,7 @@ use App\Models\Student;
 use App\Models\Course;
 use App\Models\Enrollment;
 use App\Models\Payment;
+use App\Models\PaymentItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -28,15 +29,17 @@ class AdminController extends Controller
         $totalEnrollments = Enrollment::count();
 
         // Get payment statistics
-        $totalRevenue = Payment::sum('amount');
-        $thisMonthRevenue = Payment::whereYear('created_at', date('Y'))
-            ->whereMonth('created_at', date('m'))
-            ->sum('amount');
+        $totalRevenue = PaymentItem::sum('price');
+        $thisMonthRevenue = PaymentItem::whereHas('payment', function ($query) {
+            $query->whereYear('created_at', date('Y'))
+                ->whereMonth('created_at', date('m'));
+        })->sum('price');
 
         // Calculate last month's revenue for growth comparison
-        $lastMonthRevenue = Payment::whereYear('created_at', date('Y', strtotime('-1 month')))
-            ->whereMonth('created_at', date('m', strtotime('-1 month')))
-            ->sum('amount');
+        $lastMonthRevenue = PaymentItem::whereHas('payment', function ($query) {
+            $query->whereYear('created_at', date('Y', strtotime('-1 month')))
+                ->whereMonth('created_at', date('m', strtotime('-1 month')));
+        })->sum('price');
 
         // Calculate growth percentage
         if ($lastMonthRevenue > 0) {
@@ -229,10 +232,11 @@ class AdminController extends Controller
 
             // Revenue Statistics
             fputcsv($file, ['REVENUE STATISTICS']);
-            $totalRevenue = Payment::sum('amount');
-            $thisMonthRevenue = Payment::whereYear('created_at', date('Y'))
-                ->whereMonth('created_at', date('m'))
-                ->sum('amount');
+            $totalRevenue = PaymentItem::sum('price');
+            $thisMonthRevenue = PaymentItem::whereHas('payment', function ($query) {
+                $query->whereYear('created_at', date('Y'))
+                    ->whereMonth('created_at', date('m'));
+            })->sum('price');
             fputcsv($file, ['Total Revenue', '$' . number_format($totalRevenue, 2)]);
             fputcsv($file, ['This Month Revenue', '$' . number_format($thisMonthRevenue, 2)]);
 
