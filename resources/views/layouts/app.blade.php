@@ -9,6 +9,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css  " rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/home.css') }}">
     <link rel="stylesheet" href="{{ asset('css/courses.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
     <style>
         body {
@@ -24,6 +25,9 @@
         }
         .navbar-nav .nav-link:hover {
             text-decoration: underline;
+        }
+        .navbar-brand img {
+            height: 1.8rem;
         }
         .search-bar {
             max-width: 250px;
@@ -59,7 +63,7 @@
     <!-- ✅ Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
-            <a class="navbar-brand" href="{{ url('/') }}">MySite</a>
+            <a class="navbar-brand" href="{{ url('/') }}"><img src="{{ asset('frontend/dist/images/edora-white.png') }}" alt="Learning Image"></a>
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
                 <span class="navbar-toggler-icon"></span>
@@ -169,7 +173,7 @@
             </div>
 
             <div class="footer-bottom">
-                &copy; {{ date('Y') }} MySite. All rights reserved.
+                &copy; {{ date('Y') }} Edora. All rights reserved.
             </div>
         </div>
     </footer>
